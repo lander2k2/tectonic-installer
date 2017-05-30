@@ -8,6 +8,11 @@ variable "anonymous_auth" {
   type        = "string"
 }
 
+variable "existing_certs" {
+  description = "existing certs"
+  type        = "map"
+}
+
 variable "apiserver_cert_pem" {
   type        = "string"
   description = "The API server certificate in PEM format."

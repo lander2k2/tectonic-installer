@@ -49,6 +49,7 @@ module "bootkube" {
   oidc_issuer_url    = "https://${module.vnet.ingress_fqdn}/identity"
 
   # Platform-independent variables wiring, do not modify.
+  existing_certs   = "${var.tectonic_existing_certs}"
   container_images = "${var.tectonic_container_images}"
   versions         = "${var.tectonic_versions}"
 
@@ -92,6 +93,7 @@ module "tectonic" {
   kube_apiserver_url = "https://${module.vnet.api_fqdn}:443"
 
   # Platform-independent variables wiring, do not modify.
+  existing_certs        = "${var.tectonic_existing_certs}"
   container_images      = "${var.tectonic_container_images}"
   container_base_images = "${var.tectonic_container_base_images}"
   versions              = "${var.tectonic_versions}"

@@ -42,6 +42,17 @@ output "systemd_service_id" {
 
 output "systemd_path_unit_rendered" {
   value = "${data.template_file.bootkube_path_unit.rendered}"
+
+output "ca_cert" {
+  value = "${var.existing_certs["ca_cert_path"] == "/dev/null" ? join(" ", tls_self_signed_cert.kube_ca.*.cert_pem) : "${file(var.existing_certs["ca_cert_path"])}${tls_self_signed_cert.kube_ca.0.cert_pem}"}"
+}
+
+output "ca_key_alg" {
+  value = "${var.existing_certs["ca_cert_path"] == "/dev/null" ? join(" ", tls_self_signed_cert.kube_ca.*.key_algorithm) : var.existing_certs["ca_key_alg"]}"
+}
+
+output "ca_key" {
+  value = "${var.existing_certs["ca_key_path"] == "/dev/null" ? join(" ", tls_private_key.kube_ca.*.private_key_pem) : file(var.existing_certs["ca_key_path"])}"
 }
 
 output "systemd_path_unit_id" {

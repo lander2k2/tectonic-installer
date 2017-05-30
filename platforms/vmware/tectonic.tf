@@ -52,6 +52,7 @@ module "bootkube" {
   oidc_issuer_url    = "https://${var.tectonic_vmware_ingress_domain}/identity"
 
   # Platform-independent variables wiring, do not modify.
+  existing_certs   = "${var.tectonic_existing_certs}"
   container_images = "${var.tectonic_container_images}"
   versions         = "${var.tectonic_versions}"
 
@@ -95,6 +96,7 @@ module "tectonic" {
   kube_apiserver_url = "https://${var.tectonic_vmware_controller_domain}:443"
 
   # Platform-independent variables wiring, do not modify.
+  existing_certs        = "${var.tectonic_existing_certs}"
   container_images      = "${var.tectonic_container_images}"
   container_base_images = "${var.tectonic_container_base_images}"
   versions              = "${var.tectonic_versions}"
