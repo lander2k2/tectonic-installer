@@ -45,6 +45,11 @@ variable vm_disk_datastores {
   description = "vSphere Datastore to use for VMs"
 }
 
+variable vmware_resource_pool {
+  type        = "string"
+  description = "vSphere resource pool to create VMs in"
+}
+
 variable vm_vcpu {
   type        = "string"
   description = "ETCD VMs vCPU count"

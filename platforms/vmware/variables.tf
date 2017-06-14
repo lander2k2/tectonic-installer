@@ -25,6 +25,11 @@ variable "tectonic_vmware_folder" {
   description = "vSphere Folder to create and add the Tectonic nodes"
 }
 
+variable "tectonic_vmware_resource_pool" {
+  type        = "string"
+  description = "The name of a Resource Pool in which to launch the virtual machine. Requires full path"
+}
+
 // # Global
 
 variable "tectonic_vmware_ssh_authorized_key" {
