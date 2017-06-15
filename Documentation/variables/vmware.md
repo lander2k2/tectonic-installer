@@ -10,10 +10,9 @@ This document gives an overview of variables used in the VMware platform of the 
 | tectonic_vmware_controller_domain | The domain name which resolves to controller node(s) | string | - |
 | tectonic_vmware_datacenter | Virtual DataCenter to deploy VMs | string | - |
 | tectonic_vmware_datastore | Datastore to deploy Tectonic | string | - |
-| tectonic_vmware_resource_pool | The name of a Resource Pool in which to launch the virtual machine. Requires full path  | string | - |
 | tectonic_vmware_etcd_gateway | Default Gateway IP address for etcd nodes(s) | string | - |
-| tectonic_vmware_etcd_hostnames | Terraform map of etcd node(s) Hostnames, Example:    tectonic_vmware_etcd_hostnames = {   "0" = "mycluster-etcd-0"   "1" = "mycluster-etcd-1"   "2" = "mycluster-etcd-2" } | map | - |
-| tectonic_vmware_etcd_ip | Terraform map of etcd node(s) IP Addresses, Example:    tectonic_vmware_etcd_ip = {   "0" = "192.168.246.10/24"   "1" = "192.168.246.11/24"   "2" = "192.168.246.12/24" } | map | - |
+| tectonic_vmware_etcd_hostnames | Terraform map of etcd node(s) Hostnames, Example:   tectonic_vmware_etcd_hostnames = {   "0" = "mycluster-etcd-0"   "1" = "mycluster-etcd-1"   "2" = "mycluster-etcd-2" } | map | - |
+| tectonic_vmware_etcd_ip | Terraform map of etcd node(s) IP Addresses, Example:   tectonic_vmware_etcd_ip = {   "0" = "192.168.246.10/24"   "1" = "192.168.246.11/24"   "2" = "192.168.246.12/24" } | map | - |
 | tectonic_vmware_etcd_memory | etcd node(s) VM Memory Size in MB | string | `4096` |
 | tectonic_vmware_etcd_vcpu | etcd node(s) VM vCPU count | string | `1` |
 | tectonic_vmware_folder | vSphere Folder to create and add the Tectonic nodes | string | - |
@@ -26,6 +25,7 @@ This document gives an overview of variables used in the VMware platform of the 
 | tectonic_vmware_master_vcpu | Master node(s) vCPU count | string | `1` |
 | tectonic_vmware_network | Portgroup to attach the cluster nodes | string | - |
 | tectonic_vmware_node_dns | DNS Server to be used by Virtual Machine(s). Multiple DNS servers can be separated by whitespace. Example: `"192.168.1.1 192.168.2.1"` | string | - |
+| tectonic_vmware_resource_pool | (optional) The name of a Resource Pool in which to launch the virtual machine. Requires full path | string | `` |
 | tectonic_vmware_server | vCenter Server IP/FQDN | string | - |
 | tectonic_vmware_ssh_authorized_key | SSH public key to use as an authorized key. Example: `"ssh-rsa AAAB3N..."` | string | - |
 | tectonic_vmware_ssh_private_key_path | SSH private key file in .pem format corresponding to tectonic_vmware_ssh_authorized_key. If not provided, SSH agent will be used. | string | `` |
