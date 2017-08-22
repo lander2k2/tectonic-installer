@@ -122,7 +122,7 @@ EOF
 }
 
 data "ignition_file" "profile_node" {
-  count      = "${var.http_proxy_enabled == true ? 0 : 1}"
+  count      = "${var.http_proxy_enabled ? 1 : 0}"
   path       = "/etc/profile.env"
   mode       = 0644
   filesystem = "root"
@@ -140,6 +140,7 @@ EOF
 }
 
 data "ignition_file" "profile_systemd" {
+  count      = "${var.http_proxy_enabled ? 1 : 0}"
   path       = "/etc/systemd/system.conf.d/10-default-env.conf"
   mode       = 0644
   filesystem = "root"
