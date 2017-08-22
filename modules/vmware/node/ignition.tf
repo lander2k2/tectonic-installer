@@ -122,6 +122,7 @@ EOF
 }
 
 data "ignition_file" "profile_node" {
+  count      = "${var.http_proxy_enabled == true ? 0 : 1}"
   path       = "/etc/profile.env"
   mode       = 0644
   filesystem = "root"

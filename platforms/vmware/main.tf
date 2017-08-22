@@ -30,9 +30,10 @@ module "etcd" {
   vm_disk_template        = "${var.tectonic_vmware_vm_template}"
   vm_disk_template_folder = "${var.tectonic_vmware_vm_template_folder}"
   vmware_folder           = "${vsphere_folder.tectonic_vsphere_folder.path}"
-  http_proxy           =  "${var.tectonic_vmware_httpproxy}"
-  https_proxy           =  "${var.tectonic_vmware_httpsproxy}"
-  no_proxy           =  "${var.tectonic_vmware_noproxy}"
+  http_proxy_enabled      = "${var.tectonic_vmware_httpproxy_enabled}"
+  http_proxy              = "${var.tectonic_vmware_httpproxy}"
+  https_proxy             = "${var.tectonic_vmware_httpsproxy}"
+  no_proxy                = "${var.tectonic_vmware_noproxy}"
 
 }
 
@@ -73,6 +74,7 @@ module "masters" {
   kubeconfig              = "${module.bootkube.kubeconfig}"
   private_key             = "${var.tectonic_vmware_ssh_private_key_path}"
   image_re                = "${var.tectonic_image_re}"
+  http_proxy_enabled      = "${var.tectonic_vmware_httpproxy_enabled}"
   http_proxy              = "${var.tectonic_vmware_httpproxy}"
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
@@ -126,6 +128,7 @@ module "workers" {
   kubeconfig              = "${module.bootkube.kubeconfig}"
   private_key             = "${var.tectonic_vmware_ssh_private_key_path}"
   image_re                = "${var.tectonic_image_re}"
+  http_proxy_enabled      = "${var.tectonic_vmware_httpproxy_enabled}"
   http_proxy              = "${var.tectonic_vmware_httpproxy}"
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"

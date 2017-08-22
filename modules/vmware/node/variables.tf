@@ -120,17 +120,28 @@ variable "ign_tectonic_path_unit_id" {
   default = ""
 }
 
+variable "tectonic_vmware_worker_vcpu" {
+  type        = "string"
+  default     = "1"
+  description = "Worker node(s) vCPU count"
+}
+
+variable "http_proxy_enabled" {
+  type        = "string"
+  description = "switch to configure hosts to use outbound http proxy"
+}
+
 variable "http_proxy" {
   type        = "string"
   description = "http_proxy variable for Nodes"
 }
 
-variable "no_proxy" {
-  type        = "string"
-  description = "no_proxy variable for Nodes"
-}
-
 variable "https_proxy" {
   type        = "string"
   description = "https_proxy variable for Nodes"
+}
+
+variable "no_proxy" {
+  type        = "string"
+  description = "no_proxy variable for Nodes"
 }

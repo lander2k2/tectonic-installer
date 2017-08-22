@@ -219,17 +219,23 @@ variable "tectonic_vmware_worker_datastore" {
   description = "The storage LUN used by worker nodes. In order to use vSphere Datastore Cluster use the syntax DatastoreClusterName/datastore."
 }
 
+variable "tectonic_vmware_httpproxy_enabled" {
+  type        = "string"
+  default     = "false"
+  description = "switch to configure hosts to use outbound http proxy"
+}
+
 variable "tectonic_vmware_httpproxy" {
   type        = "string"
   description = "http_proxy variable for Nodes"
 }
 
-variable "tectonic_vmware_noproxy" {
-  type        = "string"
-  description = "no_proxy variable for Nodes"
-}
-
 variable "tectonic_vmware_httpsproxy" {
   type        = "string"
   description = "https_proxy variable for Nodes"
+}
+
+variable "tectonic_vmware_noproxy" {
+  type        = "string"
+  description = "no_proxy variable for Nodes"
 }
