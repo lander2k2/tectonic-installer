@@ -11,6 +11,7 @@ data "ignition_config" "node" {
     "${var.ign_installer_kubelet_env_id}",
     "${data.ignition_file.profile_node.id}",
     "${data.ignition_file.profile_systemd.id}",
+    "${data.ignition_file.profile_systemd.id}",
   ]
 
   systemd = ["${compact(list(
@@ -22,6 +23,7 @@ data "ignition_config" "node" {
     var.ign_tectonic_service_id,
     var.ign_bootkube_path_unit_id,
     var.ign_tectonic_path_unit_id,
+    var.ign_rpc_statd_service_id,
    ))}"]
 
   networkd = [
@@ -34,55 +36,6 @@ data "ignition_user" "core" {
   ssh_authorized_keys = ["${var.core_public_keys}"]
 }
 
-data "ignition_systemd_unit" "docker" {
-  name   = "docker.service"
-  enable = true
-
-  dropin = [
-    {
-      name    = "10-dockeropts.conf"
-      content = "[Service]\nEnvironment=\"DOCKER_OPTS=--log-opt max-size=50m --log-opt max-file=3\"\n"
-    },
-  ]
-}
-
-data "ignition_systemd_unit" "locksmithd" {
-  name = "locksmithd.service"
-  mask = true
-}
-
-data "template_file" "kubelet" {
-  template = "${file("${path.module}/resources/services/kubelet.service")}"
-
-  vars {
-    cluster_dns_ip    = "${var.kube_dns_service_ip}"
-    node_label        = "${var.kubelet_node_label}"
-    node_taints_param = "${var.kubelet_node_taints != "" ? "--register-with-taints=${var.kubelet_node_taints}" : ""}"
-    cni_bin_dir_flag  = "${var.kubelet_cni_bin_dir != "" ? "--cni-bin-dir=${var.kubelet_cni_bin_dir}" : ""}"
-  }
-}
-
-data "ignition_systemd_unit" "kubelet" {
-  name    = "kubelet.service"
-  enable  = true
-  content = "${data.template_file.kubelet.rendered}"
-}
-
-data "template_file" "kubelet-env" {
-  template = "${file("${path.module}/resources/services/kubelet-env.service")}"
-
-  vars {
-    kube_version_image_url = "${replace(var.container_images["kube_version"],var.image_re,"$1")}"
-    kube_version_image_tag = "${replace(var.container_images["kube_version"],var.image_re,"$2")}"
-    kubelet_image_url      = "${replace(var.container_images["hyperkube"],var.image_re,"$1")}"
-  }
-}
-
-data "ignition_systemd_unit" "kubelet-env" {
-  name    = "kubelet-env.service"
-  enable  = true
-  content = "${data.template_file.kubelet-env.rendered}"
-}
 
 data "ignition_file" "max-user-watches" {
   filesystem = "root"
@@ -92,17 +45,6 @@ data "ignition_file" "max-user-watches" {
   content {
     content = "fs.inotify.max_user_watches=16184"
   }
-}
-
-data "ignition_systemd_unit" "bootkube" {
-  name    = "bootkube.service"
-  content = "${var.bootkube_service}"
-}
-
-data "ignition_systemd_unit" "tectonic" {
-  name    = "tectonic.service"
-  enable  = "${var.tectonic_service_disabled == 0 ? true : false}"
-  content = "${var.tectonic_service}"
 }
 
 data "ignition_systemd_unit" "vmtoolsd_member" {
@@ -154,6 +96,19 @@ DefaultEnvironment=NO_PROXY=${var.no_proxy}
 DefaultEnvironment=http_proxy=${var.http_proxy}
 DefaultEnvironment=https_proxy=${var.https_proxy}
 DefaultEnvironment=no_proxy=${var.no_proxy}
+EOF
+  }
+}
+
+data "ignition_file" "nfs_node" {
+  count      = "${var.nfs_enabled ? 1 : 0}"
+  path       = "/etc/conf.d/nfs"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+OPTS_RPC_MOUNTD=""
 EOF
   }
 }

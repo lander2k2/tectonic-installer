@@ -145,3 +145,8 @@ variable "no_proxy" {
   type        = "string"
   description = "no_proxy variable for Nodes"
 }
+
+variable "nfs_enabled" {
+  type        = "string"
+  description = "NFS mount enabled"
+}

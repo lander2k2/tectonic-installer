@@ -65,3 +65,7 @@ output "azure_udev_rules_id" {
 output "azure_udev_rules_rendered" {
   value = "${data.template_file.azure_udev_rules.rendered}"
 }
+
+output "rpc_statd_service_id" {
+  value = "${data.ignition_systemd_unit.rpc_statd_service.id}"
+}

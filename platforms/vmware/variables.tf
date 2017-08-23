@@ -239,3 +239,9 @@ variable "tectonic_vmware_noproxy" {
   type        = "string"
   description = "no_proxy variable for Nodes"
 }
+
+variable "tectonic_vmware_nfs_enabled" {
+  type        = "string"
+  default     = "false"
+  description = "enable NFS mount"
+}

@@ -132,3 +132,8 @@ data "ignition_file" "azure_udev_rules" {
     content = "${data.template_file.azure_udev_rules.rendered}"
   }
 }
+
+data "ignition_systemd_unit" "rpc_statd_service" {
+  name    = "rpc-statd.service"
+  enable  = "${var.nfs_enabled ? true : false}"
+}

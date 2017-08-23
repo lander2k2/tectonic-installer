@@ -78,6 +78,7 @@ module "masters" {
   http_proxy              = "${var.tectonic_vmware_httpproxy}"
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
+  nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
 
   ign_bootkube_path_unit_id         = "${module.bootkube.systemd_path_unit_id}"
   ign_bootkube_service_id           = "${module.bootkube.systemd_service_id}"
@@ -87,6 +88,7 @@ module "masters" {
   ign_kubelet_service_id            = "${module.ignition_masters.kubelet_service_id}"
   ign_locksmithd_service_id         = "${module.ignition_masters.locksmithd_service_id}"
   ign_max_user_watches_id           = "${module.ignition_masters.max_user_watches_id}"
+  ign_rpc_statd_service_id          = "${module.ignition_masters.rpc_statd_service_id}"
   ign_tectonic_path_unit_id         = "${var.tectonic_vanilla_k8s ? "" : module.tectonic.systemd_path_unit_id}"
   ign_tectonic_service_id           = "${module.tectonic.systemd_service_id}"
 }
@@ -132,6 +134,7 @@ module "workers" {
   http_proxy              = "${var.tectonic_vmware_httpproxy}"
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
+  nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
 
   ign_docker_dropin_id              = "${module.ignition_workers.docker_dropin_id}"
   ign_installer_kubelet_env_id      = "${module.ignition_workers.installer_kubelet_env_id}"
@@ -139,4 +142,5 @@ module "workers" {
   ign_kubelet_service_id            = "${module.ignition_workers.kubelet_service_id}"
   ign_locksmithd_service_id         = "${module.ignition_workers.locksmithd_service_id}"
   ign_max_user_watches_id           = "${module.ignition_workers.max_user_watches_id}"
+  ign_rpc_statd_service_id          = "${module.ignition_workers.rpc_statd_service_id}"
 }
