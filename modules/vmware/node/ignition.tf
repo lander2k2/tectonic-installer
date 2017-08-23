@@ -11,7 +11,7 @@ data "ignition_config" "node" {
     "${var.ign_installer_kubelet_env_id}",
     "${data.ignition_file.profile_node.id}",
     "${data.ignition_file.profile_systemd.id}",
-    "${data.ignition_file.profile_systemd.id}",
+    "${data.ignition_file.nfs_node.id}",
   ]
 
   systemd = ["${compact(list(
@@ -35,7 +35,6 @@ data "ignition_user" "core" {
   name                = "core"
   ssh_authorized_keys = ["${var.core_public_keys}"]
 }
-
 
 data "ignition_file" "max-user-watches" {
   filesystem = "root"
