@@ -24,6 +24,7 @@ data "ignition_config" "node" {
     var.ign_bootkube_path_unit_id,
     var.ign_tectonic_path_unit_id,
     var.ign_rpc_statd_service_id,
+    var.ign_iscsid_service_id,
    ))}"]
 
   networkd = [

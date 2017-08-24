@@ -49,6 +49,7 @@ module "ignition_masters" {
   kubelet_node_taints  = "node-role.kubernetes.io/master=:NoSchedule"
   tectonic_vanilla_k8s = "${var.tectonic_vanilla_k8s}"
   nfs_enabled          = "${var.tectonic_vmware_nfs_enabled}"
+  iscsi_enabled        = "${var.tectonic_vmware_iscsi_enabled}"
 }
 
 module "masters" {
@@ -89,6 +90,8 @@ module "masters" {
   ign_locksmithd_service_id         = "${module.ignition_masters.locksmithd_service_id}"
   ign_max_user_watches_id           = "${module.ignition_masters.max_user_watches_id}"
   ign_rpc_statd_service_id          = "${module.ignition_masters.rpc_statd_service_id}"
+  ign_iscsid_service_id             = "${module.ignition_masters.iscsid_service_id}"
+  ign_iscsid_conf_id                = "${module.ignition_masters.iscsid_conf_id}"
   ign_tectonic_path_unit_id         = "${var.tectonic_vanilla_k8s ? "" : module.tectonic.systemd_path_unit_id}"
   ign_tectonic_service_id           = "${module.tectonic.systemd_service_id}"
 }
@@ -105,6 +108,7 @@ module "ignition_workers" {
   kubelet_node_taints  = ""
   tectonic_vanilla_k8s = "${var.tectonic_vanilla_k8s}"
   nfs_enabled          = "${var.tectonic_vmware_nfs_enabled}"
+  iscsi_enabled        = "${var.tectonic_vmware_iscsi_enabled}"
 }
 
 module "workers" {
@@ -143,4 +147,6 @@ module "workers" {
   ign_locksmithd_service_id         = "${module.ignition_workers.locksmithd_service_id}"
   ign_max_user_watches_id           = "${module.ignition_workers.max_user_watches_id}"
   ign_rpc_statd_service_id          = "${module.ignition_workers.rpc_statd_service_id}"
+  ign_iscsid_service_id             = "${module.ignition_workers.iscsid_service_id}"
+  ign_iscsid_conf_id                = "${module.ignition_workers.iscsid_conf_id}"
 }

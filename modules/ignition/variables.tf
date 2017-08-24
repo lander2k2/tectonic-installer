@@ -66,3 +66,15 @@ variable "tectonic_vanilla_k8s" {
 If set to true, a vanilla Kubernetes cluster will be deployed, omitting any Tectonic assets.
 EOF
 }
+
+variable "nfs_enabled" {
+  type        = "string"
+  default     = "false"
+  description = "(optional) Enable NFS mounts on Container Linux nodes"
+}
+
+variable "iscsi_enabled" {
+  type        = "string"
+  default     = "false"
+  description = "(optional) Enable iscsi connections on Container Linux nodes"
+}

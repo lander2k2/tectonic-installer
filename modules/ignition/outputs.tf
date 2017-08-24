@@ -73,3 +73,11 @@ output "rpc_statd_service_id" {
 output "rpc_statd_service_rendered" {
   value = "${data.template_file.rpc_statd.rendered}"
 }
+
+output "iscsid_service_id" {
+  value = "${data.ignition_systemd_unit.iscsid.id}"
+}
+
+output "iscsid_conf_id" {
+  value = "${data.ignition_file.iscsid.id}"
+}

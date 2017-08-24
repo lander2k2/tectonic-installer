@@ -142,3 +142,21 @@ data "ignition_systemd_unit" "rpc_statd" {
   enable  = "${var.nfs_enabled ? true : false}"
   content = "${data.template_file.rpc_statd.rendered}"
 }
+
+data "ignition_systemd_unit" "iscsid" {
+  name    = "iscsid.service"
+  enable  = "${var.iscsi_enabled ? true : false}"
+}
+
+data "ignition_file" "iscsid" {
+  count      = "${var.iscsi_enabled ? 1 : 0}"
+  path       = "/etc/iscsi/iscsid.conf"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+
+EOF
+  }
+}
