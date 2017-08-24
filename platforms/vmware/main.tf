@@ -80,6 +80,8 @@ module "masters" {
   http_proxy              = "${var.tectonic_vmware_httpproxy}"
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
+  nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
+  iscsi_enabled           = "${var.tectonic_vmware_iscsi_enabled}"
 
   ign_bootkube_path_unit_id         = "${module.bootkube.systemd_path_unit_id}"
   ign_bootkube_service_id           = "${module.bootkube.systemd_service_id}"
@@ -139,6 +141,8 @@ module "workers" {
   http_proxy              = "${var.tectonic_vmware_httpproxy}"
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
+  nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
+  iscsi_enabled           = "${var.tectonic_vmware_iscsi_enabled}"
 
   ign_docker_dropin_id              = "${module.ignition_workers.docker_dropin_id}"
   ign_installer_kubelet_env_id      = "${module.ignition_workers.installer_kubelet_env_id}"

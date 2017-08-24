@@ -12,6 +12,7 @@ data "ignition_config" "node" {
     "${data.ignition_file.profile_node.id}",
     "${data.ignition_file.profile_systemd.id}",
     "${data.ignition_file.nfs_node.id}",
+    "${data.ignition_file.iscsi_node.id}",
   ]
 
   systemd = ["${compact(list(

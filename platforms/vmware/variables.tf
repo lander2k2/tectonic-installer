@@ -245,3 +245,9 @@ variable "tectonic_vmware_nfs_enabled" {
   default     = "false"
   description = "enable NFS mount"
 }
+
+variable "tectonic_vmware_iscsi_enabled" {
+  type        = "string"
+  default     = "false"
+  description = "enable iSCSI connections"
+}
