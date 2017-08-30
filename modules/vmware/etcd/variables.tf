@@ -137,3 +137,8 @@ variable "no_proxy" {
   type        = "string"
   description = "no_proxy variable for Nodes"
 }
+
+variable "trusted_ca" {
+  type        = "string"
+  description = "Path to CA to add to trusted CAs on cluster nodes"
+}

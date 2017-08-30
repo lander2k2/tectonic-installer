@@ -81,3 +81,11 @@ output "iscsid_service_id" {
 output "iscsid_conf_id" {
   value = "${data.ignition_file.iscsid.id}"
 }
+
+output "update_ca_service_id" {
+  value = "${data.ignition_systemd_unit.update_ca.id}"
+}
+
+output "update_ca_service_rendered" {
+  value = "${data.template_file.update_ca.rendered}"
+}

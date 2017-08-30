@@ -13,6 +13,7 @@ data "ignition_config" "node" {
     "${data.ignition_file.profile_systemd.id}",
     "${data.ignition_file.nfs_node.id}",
     "${data.ignition_file.iscsi_node.id}",
+    "${data.ignition_file.trusted_ca.id}",
   ]
 
   systemd = ["${compact(list(
@@ -26,6 +27,7 @@ data "ignition_config" "node" {
     var.ign_tectonic_path_unit_id,
     var.ign_rpc_statd_service_id,
     var.ign_iscsid_service_id,
+    var.ign_update_ca_service_id,
    ))}"]
 
   networkd = [
@@ -138,5 +140,15 @@ data "ignition_file" "node_hostname" {
 
   content {
     content = "${var.hostname["${count.index}"]}"
+  }
+}
+
+data "ignition_file" "trusted_ca" {
+  path       = "/etc/ssl/certs/Local_Trusted.pem"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = "${file(var.trusted_ca)}"
   }
 }

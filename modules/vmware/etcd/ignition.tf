@@ -247,3 +247,30 @@ data "ignition_networkd_unit" "vmnetwork" {
   Domains=${var.base_domain}
 EOF
 }
+
+data "ignition_file" "trusted_ca" {
+  path       = "/etc/ssl/certs/Local_Trusted.pem"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = "${file(var.trusted_ca)}"
+  }
+}
+
+data "ignition_systemd_unit" "update_ca" {
+  name    = "update_ca.service"
+
+  content = <<EOF
+  [Unit]
+  Description=Run script to update the system bundle of Certificate Authorities
+
+  [Service]
+  Type=oneshot
+  ExecStart=/usr/sbin/update-ca-certificates
+
+  [Install]
+  WantedBy=multi-user.target
+EOF
+}
+

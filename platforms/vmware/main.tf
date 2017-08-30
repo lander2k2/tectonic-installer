@@ -34,6 +34,7 @@ module "etcd" {
   http_proxy              = "${var.tectonic_vmware_httpproxy}"
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
+  trusted_ca              = "${var.tectonic_trusted_ca}"
 
 }
 
@@ -82,6 +83,7 @@ module "masters" {
   no_proxy                = "${var.tectonic_vmware_noproxy}"
   nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
   iscsi_enabled           = "${var.tectonic_vmware_iscsi_enabled}"
+  trusted_ca              = "${var.tectonic_trusted_ca}"
 
   ign_bootkube_path_unit_id         = "${module.bootkube.systemd_path_unit_id}"
   ign_bootkube_service_id           = "${module.bootkube.systemd_service_id}"
@@ -94,6 +96,7 @@ module "masters" {
   ign_rpc_statd_service_id          = "${module.ignition_masters.rpc_statd_service_id}"
   ign_iscsid_service_id             = "${module.ignition_masters.iscsid_service_id}"
   ign_iscsid_conf_id                = "${module.ignition_masters.iscsid_conf_id}"
+  ign_update_ca_service_id          = "${module.ignition_masters.update_ca_service_id}"
   ign_tectonic_path_unit_id         = "${var.tectonic_vanilla_k8s ? "" : module.tectonic.systemd_path_unit_id}"
   ign_tectonic_service_id           = "${module.tectonic.systemd_service_id}"
 }
@@ -143,6 +146,7 @@ module "workers" {
   no_proxy                = "${var.tectonic_vmware_noproxy}"
   nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
   iscsi_enabled           = "${var.tectonic_vmware_iscsi_enabled}"
+  trusted_ca              = "${var.tectonic_trusted_ca}"
 
   ign_docker_dropin_id              = "${module.ignition_workers.docker_dropin_id}"
   ign_installer_kubelet_env_id      = "${module.ignition_workers.installer_kubelet_env_id}"
@@ -153,4 +157,5 @@ module "workers" {
   ign_rpc_statd_service_id          = "${module.ignition_workers.rpc_statd_service_id}"
   ign_iscsid_service_id             = "${module.ignition_workers.iscsid_service_id}"
   ign_iscsid_conf_id                = "${module.ignition_workers.iscsid_conf_id}"
+  ign_update_ca_service_id          = "${module.ignition_workers.update_ca_service_id}"
 }

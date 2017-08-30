@@ -1,0 +1,9 @@
+[Unit]
+Description=Run script to update the system bundle of Certificate Authorities
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/update-ca-certificates
+
+[Install]
+WantedBy=multi-user.target

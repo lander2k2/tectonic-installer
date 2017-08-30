@@ -251,3 +251,8 @@ variable "tectonic_vmware_iscsi_enabled" {
   default     = "false"
   description = "enable iSCSI connections"
 }
+
+variable "tectonic_trusted_ca" {
+  type        = "string"
+  description = "Path to CA to add to trusted CAs on cluster nodes"
+}

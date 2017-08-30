@@ -160,3 +160,12 @@ data "ignition_file" "iscsid" {
 EOF
   }
 }
+
+data "template_file" "update_ca" {
+  template = "${file("${path.module}/resources/services/update-ca.service.service")}"
+}
+
+data "ignition_systemd_unit" "update_ca" {
+  name    = "update-ca.service"
+  content = "${data.template_file.update_ca.rendered}"
+}

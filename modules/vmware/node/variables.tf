@@ -155,3 +155,8 @@ variable "iscsi_enabled" {
   type        = "string"
   description = "iSCSI connections enabled"
 }
+
+variable "trusted_ca" {
+  type        = "string"
+  description = "Path to CA to add to trusted CAs on cluster nodes"
+}
