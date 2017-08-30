@@ -111,7 +111,7 @@ resource "local_file" "apiserver_key" {
   filename = "./generated/tls/apiserver.key"
 }
 
-resource "local_file" "apiserver_crt" {
+resource "local_file" "apiserver_cert" {
   content  = "${var.existing_certs["apiserver_key_path"] == "/dev/null" ? join(" ", tls_locally_signed_cert.apiserver.*.cert_pem) : file(var.existing_certs["apiserver_cert_path"])}"
   filename = "./generated/tls/apiserver.crt"
 }
