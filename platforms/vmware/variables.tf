@@ -30,11 +30,6 @@ variable "tectonic_vmware_network" {
   description = "Portgroup to attach the cluster nodes"
 }
 
-variable "tectonic_vmware_cluster" {
-  type        = "string"
-  description = "vCenter Cluster used to create VMs under"
-}
-
 // # Global
 
 variable "tectonic_vmware_ssh_authorized_key" {
