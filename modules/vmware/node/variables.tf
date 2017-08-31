@@ -58,9 +58,9 @@ variable "ip_address" {
   description = "IP Address of the node"
 }
 
-variable "vm_disk_datastore" {
-  type        = "string"
-  description = "Datastore to create VM(s) in "
+variable "vm_disk_datastores" {
+  type        = "map"
+  description = "vSphere Datastore to use for VMs"
 }
 
 variable "vmware_datacenters" {

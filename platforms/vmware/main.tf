@@ -23,11 +23,11 @@ module "etcd" {
 
   vmware_datacenters      = "${var.tectonic_vmware_etcd_datacenters}"
   vmware_clusters         = "${var.tectonic_vmware_etcd_clusters}"
+  vm_disk_datastores      = "${var.tectonic_vmware_datastores}"
 
   vm_vcpu                 = "${var.tectonic_vmware_etcd_vcpu}"
   vm_memory               = "${var.tectonic_vmware_etcd_memory}"
   vm_network_label        = "${var.tectonic_vmware_network}"
-  vm_disk_datastore       = "${var.tectonic_vmware_etcd_datastore}"
   vm_disk_template        = "${var.tectonic_vmware_vm_template}"
   vm_disk_template_folder = "${var.tectonic_vmware_vm_template_folder}"
   vmware_folder           = "${vsphere_folder.tectonic_vsphere_folder.path}"
@@ -68,11 +68,11 @@ module "masters" {
 
   vmware_datacenters      = "${var.tectonic_vmware_master_datacenters}"
   vmware_clusters         = "${var.tectonic_vmware_master_clusters}"
+  vm_disk_datastores      = "${var.tectonic_vmware_datastores}"
 
   vm_vcpu                 = "${var.tectonic_vmware_master_vcpu}"
   vm_memory               = "${var.tectonic_vmware_master_memory}"
   vm_network_label        = "${var.tectonic_vmware_network}"
-  vm_disk_datastore       = "${var.tectonic_vmware_master_datastore}"
   vm_disk_template        = "${var.tectonic_vmware_vm_template}"
   vm_disk_template_folder = "${var.tectonic_vmware_vm_template_folder}"
   vmware_folder           = "${vsphere_folder.tectonic_vsphere_folder.path}"
@@ -132,11 +132,11 @@ module "workers" {
 
   vmware_datacenters      = "${var.tectonic_vmware_worker_datacenters}"
   vmware_clusters         = "${var.tectonic_vmware_worker_clusters}"
+  vm_disk_datastores      = "${var.tectonic_vmware_datastores}"
 
   vm_vcpu                 = "${var.tectonic_vmware_worker_vcpu}"
   vm_memory               = "${var.tectonic_vmware_worker_memory}"
   vm_network_label        = "${var.tectonic_vmware_network}"
-  vm_disk_datastore       = "${var.tectonic_vmware_worker_datastore}"
   vm_disk_template        = "${var.tectonic_vmware_vm_template}"
   vm_disk_template_folder = "${var.tectonic_vmware_vm_template_folder}"
   vmware_folder           = "${vsphere_folder.tectonic_vsphere_folder.path}"
