@@ -63,7 +63,7 @@ variable "vm_disk_datastore" {
   description = "Datastore to create VM(s) in "
 }
 
-variable "vmware_datacenter" {
+variable "vmware_datacenters" {
   type        = "map"
   description = "vSphere Datacenter to create VMs in"
 }

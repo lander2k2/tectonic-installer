@@ -1,7 +1,7 @@
 resource "vsphere_virtual_machine" "node" {
   count      = "${var.instance_count}"
   name       = "${var.hostname["${count.index}"]}"
-  datacenter = "${var.vmware_datacenter["${count.index}"]}"
+  datacenter = "${var.vmware_datacenters["${count.index}"]}"
   cluster    = "${var.vmware_cluster}"
   vcpu       = "${var.vm_vcpu}"
   memory     = "${var.vm_memory}"
