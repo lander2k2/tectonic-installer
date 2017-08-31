@@ -300,7 +300,6 @@ variable "tectonic_vmware_worker_datastores" {
   tectonic_vmware_worker_datastores = {
   "0" = "myvmwareds-0"
   "1" = "myvmwareds-1"
-  "2" = "myvmwareds-2"
 }
 EOF
 }
