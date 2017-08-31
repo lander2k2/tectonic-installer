@@ -63,6 +63,11 @@ variable "vm_disk_datastore" {
   description = "Datastore to create VM(s) in "
 }
 
+variable "vmware_datacenter" {
+  type        = "map"
+  description = "vSphere Datacenter to create VMs in"
+}
+
 variable "vm_disk_template" {
   type        = "string"
   description = "Disk template to use for cloning CoreOS Container Linux"
