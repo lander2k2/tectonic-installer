@@ -105,6 +105,19 @@ variable "tectonic_vmware_etcd_datacenters" {
 EOF
 }
 
+variable "tectonic_vmware_etcd_clusters" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of etcd node(s) vSphere Clusters, example:
+  tectonic_vmware_etcd_clusters = {
+  "0" = "myvmwarecluster-0"
+  "1" = "myvmwarecluster-1"
+  "2" = "myvmwarecluster-2"
+}
+EOF
+}
+
 variable "tectonic_vmware_etcd_ip" {
   type = "map"
 
@@ -168,6 +181,19 @@ variable "tectonic_vmware_master_datacenters" {
 EOF
 }
 
+variable "tectonic_vmware_master_clusters" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of master node(s) vSphere Clusters, example:
+  tectonic_vmware_master_clusters = {
+  "0" = "myvmwarecluster-0"
+  "1" = "myvmwarecluster-1"
+  "2" = "myvmwarecluster-2"
+}
+EOF
+}
+
 variable "tectonic_vmware_master_ip" {
   type = "map"
 
@@ -225,6 +251,18 @@ variable "tectonic_vmware_worker_datacenters" {
   tectonic_vmware_worker_datacenters = {
   "0" = "myvmwaredc-0"
   "1" = "myvmwaredc-1"
+}
+EOF
+}
+
+variable "tectonic_vmware_worker_clusters" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of worker node(s) vSphere Clusters, example:
+  tectonic_vmware_worker_clusters = {
+  "0" = "myvmwarecluster-0"
+  "1" = "myvmwarecluster-1"
 }
 EOF
 }

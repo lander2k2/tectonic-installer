@@ -73,6 +73,11 @@ variable "vm_disk_template" {
   description = "Disk template to use for cloning CoreOS Container Linux"
 }
 
+variable "vmware_clusters" {
+  type        = "map"
+  description = "vSphere Cluster to create VMs in"
+}
+
 variable "vm_disk_template_folder" {
   type        = "string"
   description = "vSphere Folder CoreOS Container Linux is located in"
@@ -91,16 +96,6 @@ variable "vm_network_label" {
 variable "vm_vcpu" {
   type        = "string"
   description = "VMs vCPU count"
-}
-
-variable "vmware_cluster" {
-  type        = "string"
-  description = "vSphere Cluster to create VMs in"
-}
-
-variable "vmware_datacenter" {
-  type        = "string"
-  description = "vSphere Datacenter to create VMs in"
 }
 
 variable "ign_bootkube_service_id" {
