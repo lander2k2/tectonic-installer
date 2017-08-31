@@ -131,7 +131,7 @@ variable "tectonic_vmware_etcd_gateways" {
 
   description = <<EOF
   terraform map of etcd node(s) network gateway IP, example:
-  tectonic_vmware_etcd_datastores = {
+  tectonic_vmware_etcd_gateways = {
   "0" = "192.168.246.99/24"
   "1" = "192.168.246.99/24"
   "2" = "192.168.246.99/24"
@@ -222,7 +222,7 @@ variable "tectonic_vmware_master_gateways" {
 
   description = <<EOF
   terraform map of master node(s) network gateway IP, example:
-  tectonic_vmware_master_datastores = {
+  tectonic_vmware_master_gateways = {
   "0" = "192.168.246.99/24"
   "1" = "192.168.246.99/24"
   "2" = "192.168.246.99/24"
@@ -309,7 +309,7 @@ variable "tectonic_vmware_worker_gateways" {
 
   description = <<EOF
   terraform map of worker node(s) network gateway IP, example:
-  tectonic_vmware_worker_datastores = {
+  tectonic_vmware_worker_gateways = {
   "0" = "192.168.246.99/24"
   "1" = "192.168.246.99/24"
 }
