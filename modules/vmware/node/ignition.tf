@@ -14,6 +14,7 @@ data "ignition_config" "node" {
     "${data.ignition_file.nfs_node.id}",
     "${data.ignition_file.iscsi_node.id}",
     "${data.ignition_file.trusted_ca.id}",
+    "${data.ignition_file.ntp_conf.id}",
   ]
 
   systemd = ["${compact(list(
@@ -150,5 +151,36 @@ data "ignition_file" "trusted_ca" {
 
   content {
     content = "${file(var.trusted_ca)}"
+  }
+}
+
+data "ignition_systemd_unit" "update_ca" {
+  name   = "update_ca.service"
+  enable = true
+
+  content = <<EOF
+  [Unit]
+  Description=Run script to update the system bundle of Certificate Authorities
+
+  [Service]
+  Type=oneshot
+  ExecStart=/usr/sbin/update-ca-certificates
+
+  [Install]
+  WantedBy=multi-user.target
+EOF
+}
+
+data "ignition_file" "ntp_conf" {
+  count      = "${var.ntp_sources ? 1 : 0}"
+  path       = "/etc/systemd/timesyncd.conf"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+[Time]
+NTP=19.88.151.249 19.88.151.247
+EOF
   }
 }

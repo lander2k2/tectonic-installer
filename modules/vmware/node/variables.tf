@@ -160,3 +160,8 @@ variable "trusted_ca" {
   type        = "string"
   description = "Path to CA to add to trusted CAs on cluster nodes"
 }
+
+variable "ntp_sources" {
+  type        = "map"
+  description = "NTP sources for the node"
+}

@@ -16,6 +16,7 @@ data "ignition_config" "etcd" {
     "${data.ignition_file.etcd_peer_key.id}",
     "${data.ignition_file.profile_node.id}",
     "${data.ignition_file.profile_systemd.id}",
+    "${data.ignition_file.ntp_conf.id}",
   ]
 
   systemd = [
@@ -274,3 +275,16 @@ data "ignition_systemd_unit" "update_ca" {
 EOF
 }
 
+data "ignition_file" "ntp_conf" {
+  count      = "${var.ntp_sources ? 1 : 0}"
+  path       = "/etc/systemd/timesyncd.conf"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+[Time]
+NTP=19.88.151.249 19.88.151.247
+EOF
+  }
+}
