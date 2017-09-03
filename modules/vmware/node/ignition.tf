@@ -172,7 +172,7 @@ EOF
 }
 
 data "ignition_file" "ntp_conf" {
-  count      = "${var.ntp_sources ? 1 : 0}"
+  count      = "${length(keys(var.ntp_sources)) > 0 ? 1 : 0}"
   path       = "/etc/systemd/timesyncd.conf"
   mode       = 0644
   filesystem = "root"
@@ -180,7 +180,7 @@ data "ignition_file" "ntp_conf" {
   content {
     content = <<EOF
 [Time]
-NTP=19.88.151.249 19.88.151.247
+NTP=${var.ntp_sources["${count.index}"]}
 EOF
   }
 }
