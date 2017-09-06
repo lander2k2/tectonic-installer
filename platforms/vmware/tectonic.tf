@@ -111,9 +111,6 @@ module "tectonic" {
   update_app_id  = "${var.tectonic_update_app_id}"
   update_server  = "${var.tectonic_update_server}"
 
-  ca_generated = "${var.tectonic_ca_cert == "" ? false : true}"
-  ca_cert      = "${module.kube_certs.ca_cert_pem}"
-
   ingress_ca_cert_pem = "${module.ingress_certs.ca_cert_pem}"
   ingress_cert_pem    = "${module.ingress_certs.cert_pem}"
   ingress_key_pem     = "${module.ingress_certs.key_pem}"
@@ -122,6 +119,12 @@ module "tectonic" {
   identity_client_key_pem  = "${module.identity_certs.client_key_pem}"
   identity_server_cert_pem = "${module.identity_certs.server_cert_pem}"
   identity_server_key_pem  = "${module.identity_certs.server_key_pem}"
+
+  ca_generated  = "${module.bootkube.ca_cert == "" ? false : true}"
+  ca_cert       = "${module.bootkube.ca_cert}"
+  local_ca_cert = "${module.bootkube.local_ca_cert}"
+  ca_key_alg    = "${module.bootkube.ca_key_alg}"
+  ca_key        = "${module.bootkube.ca_key}"
 
   console_client_id = "tectonic-console"
   kubectl_client_id = "tectonic-kubectl"
