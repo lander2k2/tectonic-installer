@@ -362,7 +362,7 @@ EOF
     ca_cert_path        = "/dev/null"
     ca_key_path         = "/dev/null"
     ca_key_alg          = "RSA"
-    ingress_cert_path   = "/dev/null"
+    ingress_crt_path   = "/dev/null"
     ingress_key_path    = "/dev/null"
     apiserver_cert_path = "/dev/null"
     apiserver_key_path  = "/dev/null"
