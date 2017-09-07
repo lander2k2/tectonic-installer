@@ -25,11 +25,11 @@ variable "tectonic_vmware_folder" {
   description = "vSphere Folder to create and add the Tectonic nodes"
 }
 
-variable "tectonic_vmware_resource_pool" {
-  type        = "string"
-  description = "(optional) The name of a Resource Pool in which to launch the virtual machine. Requires full path. Full path can be obtained by executing `govc pool.info $ResourcePoolName`"
-  default     = ""
-}
+//variable "tectonic_vmware_resource_pool" {
+//  type        = "string"
+//  description = "(optional) The name of a Resource Pool in which to launch the virtual machine. Requires full path. Full path can be obtained by executing `govc pool.info $ResourcePoolName`"
+//  default     = ""
+//}
 
 // # Global
 
@@ -110,6 +110,19 @@ variable "tectonic_vmware_etcd_clusters" {
   "0" = "myvmwarecluster-0"
   "1" = "myvmwarecluster-1"
   "2" = "myvmwarecluster-2"
+}
+EOF
+}
+
+variable "tectonic_vmware_etcd_resource_pool" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of etcd node(s) vSphere Resource Pools, example:
+  tectonic_vmware_etcd_clusters = {
+  "0" = "myresourcepool-1"
+  "1" = "myresourcepool-2"
+  "2" = "myresourcepool-3"
 }
 EOF
 }
@@ -231,6 +244,19 @@ variable "tectonic_vmware_master_clusters" {
 EOF
 }
 
+variable "tectonic_vmware_master_resource_pool" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of master node(s) vSphere Resource pools, example:
+  tectonic_vmware_master_clusters = {
+  "0" = "myresourcepool-0"
+  "1" = "myresourcepool-1"
+  "2" = "myresourcepool-2"
+}
+EOF
+}
+
 variable "tectonic_vmware_master_datastores" {
   type = "map"
 
@@ -339,6 +365,18 @@ variable "tectonic_vmware_worker_clusters" {
   tectonic_vmware_worker_clusters = {
   "0" = "myvmwarecluster-0"
   "1" = "myvmwarecluster-1"
+}
+EOF
+}
+
+variable "tectonic_vmware_worker_resource_pool" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of worker node(s) vSphere Resource Pools, example:
+  tectonic_vmware_worker_clusters = {
+  "0" = "myresourcepool-0"
+  "1" = "myresourcepool-1"
 }
 EOF
 }

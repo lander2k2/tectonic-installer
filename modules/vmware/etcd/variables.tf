@@ -46,7 +46,7 @@ variable vm_disk_datastores {
 }
 
 variable vmware_resource_pool {
-  type        = "string"
+  type        = "map"
   description = "vSphere resource pool to create VMs in"
 }
 
