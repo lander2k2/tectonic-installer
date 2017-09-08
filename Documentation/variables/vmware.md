@@ -6,25 +6,37 @@ This document gives an overview of variables used in the VMware platform of the 
 
 | Name | Description | Type | Default |
 |------|-------------|:----:|:-----:|
-| tectonic_vmware_cluster | vCenter Cluster used to create VMs under | string | - |
+| tectonic_etcd_ntp | Terraform map of etcd node(s) NTP sources, Example:   tectonic_vmware_etcd_ip = {   "0" = "my.ntp.com"   "1" = "my.ntp.com"   "2" = "my.ntp.com" } | map | - |
+| tectonic_master_ntp | Terraform map of master node(s) NTP time sources, Example:   tectonic_vmware_master_ip = {   "0" = "my.ntp.com"   "1" = "my.ntp.com" } | map | - |
+| tectonic_trusted_ca | Path to CA to add to trusted CAs on cluster nodes | string | - |
 | tectonic_vmware_controller_domain | The domain name which resolves to controller node(s) | string | - |
-| tectonic_vmware_datacenter | Virtual DataCenter to deploy VMs | string | - |
-| tectonic_vmware_datastore | Datastore to deploy Tectonic | string | - |
-| tectonic_vmware_etcd_gateway | Default Gateway IP address for etcd nodes(s) | string | - |
-| tectonic_vmware_etcd_hostnames | Terraform map of etcd node(s) Hostnames, Example:   tectonic_vmware_etcd_hostnames = {   "0" = "mycluster-etcd-0"   "1" = "mycluster-etcd-1"   "2" = "mycluster-etcd-2" } | map | - |
+| tectonic_vmware_etcd_clusters | terraform map of etcd node(s) vSphere Clusters, example:   tectonic_vmware_etcd_clusters = {   "0" = "myvmwarecluster-0"   "1" = "myvmwarecluster-1"   "2" = "myvmwarecluster-2" } | map | - |
+| tectonic_vmware_etcd_datacenters | terraform map of etcd node(s) Virtual DataCenters, example:   tectonic_vmware_etcd_datacenters = {   "0" = "myvmwaredc-0"   "1" = "myvmwaredc-1"   "2" = "myvmwaredc-2" } | map | - |
+| tectonic_vmware_etcd_datastores | terraform map of etcd node(s) vSphere Datastores, example:   tectonic_vmware_etcd_datastores = {   "0" = "myvmwareds-0"   "1" = "myvmwareds-1"   "2" = "myvmwareds-2" } | map | - |
+| tectonic_vmware_etcd_gateways | terraform map of etcd node(s) network gateway IP, example:   tectonic_vmware_etcd_gateways = {   "0" = "192.168.246.99/24"   "1" = "192.168.246.99/24"   "2" = "192.168.246.99/24" } | map | - |
+| tectonic_vmware_etcd_hostnames | terraform map of etcd node(s) hostnames, example:    tectonic_vmware_etcd_hostnames = {   "0" = "mycluster-etcd-0"   "1" = "mycluster-etcd-1"   "2" = "mycluster-etcd-2" } | map | - |
 | tectonic_vmware_etcd_ip | Terraform map of etcd node(s) IP Addresses, Example:   tectonic_vmware_etcd_ip = {   "0" = "192.168.246.10/24"   "1" = "192.168.246.11/24"   "2" = "192.168.246.12/24" } | map | - |
 | tectonic_vmware_etcd_memory | etcd node(s) VM Memory Size in MB | string | `4096` |
+| tectonic_vmware_etcd_networks | Terraform map of etcd node(s) vSphere network portgroups, Example:   tectonic_vmware_etcd_ip = {   "0" = "mynet-0"   "1" = "mynet-1"   "2" = "mynet-2" } | map | - |
 | tectonic_vmware_etcd_vcpu | etcd node(s) VM vCPU count | string | `1` |
 | tectonic_vmware_folder | vSphere Folder to create and add the Tectonic nodes | string | - |
+| tectonic_vmware_httpproxy | http_proxy variable for Nodes | string | - |
+| tectonic_vmware_httpproxy_enabled | switch to configure hosts to use outbound http proxy | string | `false` |
+| tectonic_vmware_httpsproxy | https_proxy variable for Nodes | string | - |
 | tectonic_vmware_ingress_domain | The domain name which resolves to Tectonic Ingress (i.e. worker node(s)) | string | - |
-| tectonic_vmware_master_datastore | The storage LUN used by master nodes. In order to use vSphere Datastore Cluster use the syntax DatastoreClusterName/datastore. | string | `` |
-| tectonic_vmware_master_gateway | Default Gateway IP address for Master nodes(s) | string | - |
-| tectonic_vmware_master_hostnames | Terraform map of Master node(s) Hostnames, Example:    tectonic_vmware_master_hostnames = {   "0" = "mycluster-master-0"   "1" = "mycluster-master-1" } | map | - |
+| tectonic_vmware_iscsi_enabled | enable iSCSI connections | string | `false` |
+| tectonic_vmware_master_clusters | terraform map of master node(s) vSphere Clusters, example:   tectonic_vmware_master_clusters = {   "0" = "myvmwarecluster-0"   "1" = "myvmwarecluster-1"   "2" = "myvmwarecluster-2" } | map | - |
+| tectonic_vmware_master_datacenters | terraform map of master node(s) Virtual DataCenters, example:   tectonic_vmware_master_datacenters = {   "0" = "myvmwaredc-0"   "1" = "myvmwaredc-1"   "2" = "myvmwaredc-2" } | map | - |
+| tectonic_vmware_master_datastores | terraform map of master node(s) vSphere Datastores, example:   tectonic_vmware_master_datastores = {   "0" = "myvmwareds-0"   "1" = "myvmwareds-1"   "2" = "myvmwareds-2" } | map | - |
+| tectonic_vmware_master_gateways | terraform map of master node(s) network gateway IP, example:   tectonic_vmware_master_gateways = {   "0" = "192.168.246.99/24"   "1" = "192.168.246.99/24"   "2" = "192.168.246.99/24" } | map | - |
+| tectonic_vmware_master_hostnames | Terraform map of Master node(s) Hostnames, Example:   tectonic_vmware_master_hostnames = {   "0" = "mycluster-master-0"   "1" = "mycluster-master-1" } | map | - |
 | tectonic_vmware_master_ip | Terraform map of Master node(s) IP Addresses, Example:    tectonic_vmware_master_ip = {   "0" = "192.168.246.20/24"   "1" = "192.168.246.21/24" } | map | - |
 | tectonic_vmware_master_memory | Master node(s) Memory Size in MB | string | `4096` |
+| tectonic_vmware_master_networks | Terraform map of master node(s) vSphere network portgroups, Example:   tectonic_vmware_master_ip = {   "0" = "mynet-0"   "1" = "mynet-1" } | map | - |
 | tectonic_vmware_master_vcpu | Master node(s) vCPU count | string | `1` |
-| tectonic_vmware_network | Portgroup to attach the cluster nodes | string | - |
+| tectonic_vmware_nfs_enabled | enable NFS mount | string | `false` |
 | tectonic_vmware_node_dns | DNS Server to be used by Virtual Machine(s). Multiple DNS servers can be separated by whitespace. Example: `"192.168.1.1 192.168.2.1"` | string | - |
+| tectonic_vmware_noproxy | no_proxy variable for Nodes | string | - |
 | tectonic_vmware_resource_pool | (optional) The name of a Resource Pool in which to launch the virtual machine. Requires full path. Full path can be obtained by executing `govc pool.info $ResourcePoolName` | string | `` |
 | tectonic_vmware_server | vCenter Server IP/FQDN | string | - |
 | tectonic_vmware_ssh_authorized_key | SSH public key to use as an authorized key. Example: `"ssh-rsa AAAB3N..."` | string | - |
@@ -32,10 +44,14 @@ This document gives an overview of variables used in the VMware platform of the 
 | tectonic_vmware_sslselfsigned | Is the vCenter certificate Self-Signed? Example: `tectonic_vmware_sslselfsigned = "true"` | string | - |
 | tectonic_vmware_vm_template | Virtual Machine template of CoreOS Container Linux. | string | - |
 | tectonic_vmware_vm_template_folder | Folder for VM template of CoreOS Container Linux. | string | - |
-| tectonic_vmware_worker_datastore | The storage LUN used by worker nodes. In order to use vSphere Datastore Cluster use the syntax DatastoreClusterName/datastore. | string | `` |
-| tectonic_vmware_worker_gateway | Default Gateway IP address for Master nodes(s) | string | - |
+| tectonic_vmware_worker_clusters | terraform map of worker node(s) vSphere Clusters, example:   tectonic_vmware_worker_clusters = {   "0" = "myvmwarecluster-0"   "1" = "myvmwarecluster-1" } | map | - |
+| tectonic_vmware_worker_datacenters | terraform map of worker node(s) Virtual DataCenters, example:   tectonic_vmware_worker_datacenters = {   "0" = "myvmwaredc-0"   "1" = "myvmwaredc-1" } | map | - |
+| tectonic_vmware_worker_datastores | terraform map of worker node(s) vSphere Datastores, example:   tectonic_vmware_worker_datastores = {   "0" = "myvmwareds-0"   "1" = "myvmwareds-1" } | map | - |
+| tectonic_vmware_worker_gateways | terraform map of worker node(s) network gateway IP, example:   tectonic_vmware_worker_gateways = {   "0" = "192.168.246.99/24"   "1" = "192.168.246.99/24" } | map | - |
 | tectonic_vmware_worker_hostnames | Terraform map of Worker node(s) Hostnames, Example:    tectonic_vmware_worker_hostnames = {   "0" = "mycluster-worker-0"   "1" = "mycluster-worker-1" } | map | - |
 | tectonic_vmware_worker_ip | Terraform map of Worker node(s) IP Addresses, Example:    tectonic_vmware_worker_ip = {   "0" = "192.168.246.30/24"   "1" = "192.168.246.31/24" } | map | - |
 | tectonic_vmware_worker_memory | Worker node(s) Memory Size in MB | string | `4096` |
+| tectonic_vmware_worker_networks | Terraform map of worker node(s) vSphere network portgroups, Example:   tectonic_vmware_worker_ip = {   "0" = "mynet-0"   "1" = "mynet-1" } | map | - |
 | tectonic_vmware_worker_vcpu | Worker node(s) vCPU count | string | `1` |
+| tectonic_worker_ntp | Terraform map of worker node(s) NTP time sources, Example:   tectonic_vmware_worker_ip = {   "0" = "my.ntp.com"   "1" = "my.ntp.com" } | map | - |
 
