@@ -78,7 +78,7 @@ variable "tectonic_vmware_etcd_memory" {
 variable "tectonic_vmware_etcd_hostnames" {
   type = "map"
 
-  description = <<eof
+  description = <<EOF
   terraform map of etcd node(s) hostnames, example: 
   tectonic_vmware_etcd_hostnames = {
   "0" = "mycluster-etcd-0"
