@@ -1,10 +1,5 @@
 // # VMware Connectivity
 
-variable "tectonic_vmware_vm_template" {
-  type        = "string"
-  description = "Virtual Machine template of CoreOS Container Linux."
-}
-
 variable "tectonic_vmware_vm_template_folder" {
   type        = "string"
   description = "Folder for VM template of CoreOS Container Linux."
@@ -73,6 +68,11 @@ variable "tectonic_vmware_etcd_memory" {
   type        = "string"
   default     = "4096"
   description = "etcd node(s) VM Memory Size in MB"
+}
+
+variable "tectonic_vmware_etcd_vm_template" {
+  type        = "string"
+  description = "Virtual Machine template of CoreOS Container Linux for etcd node(s)."
 }
 
 variable "tectonic_vmware_etcd_hostnames" {
@@ -193,6 +193,11 @@ variable "tectonic_vmware_master_memory" {
   description = "Master node(s) Memory Size in MB"
 }
 
+variable "tectonic_vmware_master_vm_template" {
+  type        = "string"
+  description = "Virtual Machine template of CoreOS Container Linux for master node(s)."
+}
+
 variable "tectonic_vmware_master_hostnames" {
   type = "map"
 
@@ -305,6 +310,11 @@ variable "tectonic_vmware_worker_memory" {
   type        = "string"
   default     = "4096"
   description = "Worker node(s) Memory Size in MB"
+}
+
+variable "tectonic_vmware_worker_vm_template" {
+  type        = "string"
+  description = "Virtual Machine template of CoreOS Container Linux for worker node(s)."
 }
 
 variable "tectonic_vmware_worker_hostnames" {
