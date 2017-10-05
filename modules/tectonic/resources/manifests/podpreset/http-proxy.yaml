@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: http-proxy-env-config
+data:
+  NO_PROXY: "localhost,127.0.0.1,19.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,sumalab.ford.com,*.fsillab.ford.com,.fsillab.ford.com,www.gsoutils.ford.com,*.hplab1.ford.com,.hplab1.ford.com,10.3.0.0/16,10.2.0.0/16"
+  no_proxy: "localhost,127.0.0.1,19.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,sumalab.ford.com,*.fsillab.ford.com,.fsillab.ford.com,www.gsoutils.ford.com,*.hplab1.ford.com,.hplab1.ford.com,10.3.0.0/16,10.2.0.0/16"
+  HTTP_PROXY: "http://proxyvipfmcc.nb.ford.com:83"
+  http_proxy: "http://proxyvipfmcc.nb.ford.com:83"
+  HTTPS_PROXY: "http://proxyvipfmcc.nb.ford.com:83"
+  https_proxy: "http://proxyvipfmcc.nb.ford.com:83"
+
+---
+
+kind: PodPreset
+apiVersion: settings.k8s.io/v1alpha1
+metadata:
+  name: http-proxy
+spec:
+  # No selector set in order to apply the preset to all Pods in the namespace.
+  envFrom:
+    - configMapRef:
+        name: http-proxy-env-config

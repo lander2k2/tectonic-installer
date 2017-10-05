@@ -69,6 +69,19 @@ wait_for_tpr() {
   set -e
 }
 
+wait_for_podpreset() {
+  set +e
+  i=0
+
+  echo "Waiting for PodPreset $2"
+  until $KUBECTL -n "$1" get podpreset "$2"; do
+    i=$((i+1))
+    echo "PodPreset $2 not available yet, retrying in 5 seconds ($i)"
+    sleep 5
+  done
+  set -e
+}
+
 wait_for_pods() {
   set +e
   echo "Waiting for pods in namespace $1"
@@ -122,6 +135,13 @@ wait_for_pods kube-system
 # Creating resources
 echo "Creating Tectonic Namespace"
 kubectl create -f namespace.yaml
+
+echo "Creating PodPreset for HTTP_PROXY settings in tectonic-system"
+kubectl create -f podpreset/http-proxy.yaml -n tectonic-system
+wait_for_podpreset tectonic-system http-proxy
+# Arbitrary sleep hack because the PodPreset isn't always available as an
+# AdmissionController just because its been created & retrievable by kubectl.
+sleep 10
 
 echo "Creating Initial Roles"
 kubectl delete -f rbac/role-admin.yaml
