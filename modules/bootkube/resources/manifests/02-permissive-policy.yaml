@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: system-tectonic-permissive
+spec:
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  runAsUser:
+    rule: RunAsAny
+  fsGroup:
+    rule: RunAsAny
+  hostPorts:
+  - min: 0
+    max: 65535
+  volumes:
+  - '*'
+  allowedCapabilities:
+  - '*'
