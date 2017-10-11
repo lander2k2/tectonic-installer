@@ -18,8 +18,12 @@ metadata:
   name: http-proxy
 spec:
   selector:
-    matchLabels:
-      namespace: tectonic-system
+    matchExpressions:
+    - key: k8s-app
+      operator: In
+      values:
+      - kube-version-operator
+      - tectonic-channel-operator
   envFrom:
     - configMapRef:
         name: http-proxy-env-config
