@@ -134,6 +134,10 @@ module "tectonic" {
   stats_url         = "${var.tectonic_stats_url}"
 
   image_re = "${var.tectonic_image_re}"
+
+  http_proxy  = "${var.tectonic_vmware_httpproxy}"
+  https_proxy = "${var.tectonic_vmware_httpsproxy}"
+  no_proxy    = "${var.tectonic_vmware_noproxy}"
 }
 
 module "flannel-vxlan" {

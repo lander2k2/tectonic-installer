@@ -96,6 +96,10 @@ resource "template_dir" "tectonic" {
     identity_api_service  = "${var.identity_api_service}"
 
     image_re = "${var.image_re}"
+
+    http_proxy  = "${var.http_proxy}"
+    https_proxy = "${var.https_proxy}"
+    no_proxy    = "${var.no_proxy}"
   }
 }
 
