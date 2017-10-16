@@ -60,6 +60,8 @@ module "masters" {
   tectonic_service_disabled = "${var.tectonic_vanilla_k8s}"
   kube_image_url            = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$1")}"
   kube_image_tag            = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$2")}"
+  node_regions              = "${var.tectonic_vmware_master_regions}"
+  node_zones                = "${var.tectonic_vmware_master_zones}"
 
   vmware_datacenters = "${var.tectonic_vmware_master_datacenters}"
   vmware_clusters    = "${var.tectonic_vmware_master_clusters}"
@@ -104,6 +106,8 @@ module "workers" {
   tectonic_service    = ""
   kube_image_url      = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$1")}"
   kube_image_tag      = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$2")}"
+  node_regions        = "${var.tectonic_vmware_worker_regions}"
+  node_zones          = "${var.tectonic_vmware_worker_zones}"
 
   vmware_datacenters = "${var.tectonic_vmware_worker_datacenters}"
   vmware_clusters    = "${var.tectonic_vmware_worker_clusters}"

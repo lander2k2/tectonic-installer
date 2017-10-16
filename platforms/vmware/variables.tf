@@ -488,3 +488,67 @@ variable "tectonic_trusted_ca" {
   type        = "string"
   description = "Path to CA to add to trusted CAs on cluster nodes"
 }
+
+variable "tectonic_vmware_master_regions" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of master node(s) assigned region.
+  Typically, all nodes in a cluster will reside in a single region.
+  The actual values used don't matter except in relation to each other.
+  Example:
+  tectonic_vmware_master_regions = {
+  "0" = "region-0"
+  "1" = "region-0"
+}
+EOF
+}
+
+variable "tectonic_vmware_master_zones" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of master node(s) assigned zone.
+  Zones are arbitrary names of physical availability zones you may use for your cluster.
+  The actual values used don't matter except in relation to each other.
+  Example of two masters spread across two zones:
+  tectonic_vmware_master_zones = {
+  "0" = "zone-0"
+  "1" = "zone-1"
+}
+EOF
+}
+
+variable "tectonic_vmware_worker_regions" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of worker node(s) assigned region.
+  Typically, all nodes in a cluster will reside in a single region.
+  The actual values used don't matter except in relation to each other.
+  Example:
+  tectonic_vmware_worker_regions = {
+  "0" = "region-0"
+  "1" = "region-0"
+  "2" = "region-0"
+  "3" = "region-0"
+}
+EOF
+}
+
+variable "tectonic_vmware_worker_zones" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of worker node(s) assigned zone.
+  Zones are arbitrary names of physical availability zones you may use for your cluster.
+  The actual values used don't matter except in relation to each other.
+  Example of four workers spread across two zones:
+  tectonic_vmware_worker_zones = {
+  "0" = "zone-0"
+  "1" = "zone-0"
+  "2" = "zone-1"
+  "3" = "zone-1"
+}
+EOF
+}
