@@ -193,3 +193,13 @@ variable "ntp_sources" {
   type        = "map"
   description = "NTP sources for the node"
 }
+
+variable "node_regions" {
+  type        = "map"
+  description = "Regions used for failure-domain node label"
+}
+
+variable "node_zones" {
+  type        = "map"
+  description = "Zones used for failure-domain node label"
+}
