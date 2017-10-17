@@ -24,6 +24,7 @@ spec:
       values:
       - kube-version-operator
       - tectonic-channel-operator
+      - tectonic-stats-emitter
   envFrom:
     - configMapRef:
         name: http-proxy-env-config
