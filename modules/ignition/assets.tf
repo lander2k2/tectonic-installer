@@ -162,7 +162,7 @@ EOF
 }
 
 data "template_file" "update_ca" {
-  template = "${file("${path.module}/resources/services/update-ca.service.service")}"
+  template = "${file("${path.module}/resources/services/update-ca.service")}"
 }
 
 data "ignition_systemd_unit" "update_ca" {
