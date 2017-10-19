@@ -125,6 +125,26 @@ variable "ign_tectonic_path_unit_id" {
   default = ""
 }
 
+variable "ign_rpc_statd_service_id" {
+  type    = "string"
+  default = ""
+}
+
+variable "ign_iscsid_service_id" {
+  type    = "string"
+  default = ""
+}
+
+variable "ign_iscsid_conf_id" {
+  type    = "string"
+  default = ""
+}
+
+variable "ign_update_ca_service_id" {
+  type    = "string"
+  default = ""
+}
+
 variable "tectonic_vmware_worker_vcpu" {
   type        = "string"
   default     = "1"
