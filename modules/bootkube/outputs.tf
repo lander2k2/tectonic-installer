@@ -42,6 +42,7 @@ output "systemd_service_id" {
 
 output "systemd_path_unit_rendered" {
   value = "${data.template_file.bootkube_path_unit.rendered}"
+}
 
 output "ca_cert" {
   value = "${var.existing_certs["ca_crt_path"] == "/dev/null" ? join(" ", tls_self_signed_cert.kube_ca.*.cert_pem) : "${file(var.existing_certs["ca_crt_path"])}${tls_self_signed_cert.kube_ca.0.cert_pem}"}"
