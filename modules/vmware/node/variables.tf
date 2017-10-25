@@ -179,6 +179,14 @@ variable "nfs_enabled" {
   description = "NFS mount enabled"
 }
 
+variable "nfs_conf" {
+  type        = "string"
+  description = <<EOF
+  configurations to add to /etc/conf.d/nfs file on Container Linux host, example:
+  nfs_conf = 'OPTS_RPC_NFSD="8"\nOPTS_RPC_MOUNTD="-V 4 -V 3 -N 2"'
+EOF
+}
+
 variable "iscsi_enabled" {
   type        = "string"
   description = "iSCSI connections enabled"

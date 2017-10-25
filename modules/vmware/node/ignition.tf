@@ -207,7 +207,7 @@ data "ignition_file" "nfs_node" {
 
   content {
     content = <<EOF
-OPTS_RPC_MOUNTD=""
+"${var.nfs_conf}"
 EOF
   }
 }

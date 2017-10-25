@@ -478,6 +478,15 @@ variable "tectonic_vmware_nfs_enabled" {
   description = "enable NFS mount"
 }
 
+variable "tectonic_vmware_nfs_conf" {
+  type        = "string"
+  default     = ""
+  description = <<EOF
+  configurations to add to /etc/conf.d/nfs file on Container Linux host, example:
+  nfs_conf = 'OPTS_RPC_NFSD="8"\nOPTS_RPC_MOUNTD="-V 4 -V 3 -N 2"'
+EOF
+}
+
 variable "tectonic_vmware_iscsi_enabled" {
   type        = "string"
   default     = "false"
