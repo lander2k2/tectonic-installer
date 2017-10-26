@@ -35,11 +35,6 @@ variable "tectonic_vmware_datacenter" {
   description = "Virtual DataCenter to deploy VMs"
 }
 
-variable "tectonic_vmware_cluster" {
-  type        = "string"
-  description = "vCenter Cluster used to create VMs under"
-}
-
 variable "tectonic_vmware_type" {
   type        = "string"
   description = "The type of folder to create. Allowed options: datacenter, host, vm, datastore, and network."
@@ -103,6 +98,19 @@ variable "tectonic_vmware_etcd_hostnames" {
 EOF
 }
 
+variable "tectonic_vmware_etcd_clusters" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of etcd node(s) vSphere Clusters, Example:
+  tectonic_vmware_etcd_clusters = {
+  "0" = "myvmwarecluster-0"
+  "1" = "myvmwarecluster-1"
+  "2" = "myvmwarecluster-2"
+}
+EOF
+}
+
 variable "tectonic_vmware_etcd_ip" {
   type = "map"
 
@@ -153,6 +161,18 @@ variable "tectonic_vmware_master_hostnames" {
 EOF
 }
 
+variable "tectonic_vmware_master_clusters" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of master node(s) vSphere Clusters, Example:
+  tectonic_vmware_master_clusters = {
+  "0" = "myvmwarecluster-0"
+  "1" = "myvmwarecluster-1"
+}
+EOF
+}
+
 variable "tectonic_vmware_master_ip" {
   type = "map"
 
@@ -198,6 +218,18 @@ variable "tectonic_vmware_worker_hostnames" {
   tectonic_vmware_worker_hostnames = {
   "0" = "mycluster-worker-0"
   "1" = "mycluster-worker-1"
+}
+EOF
+}
+
+variable "tectonic_vmware_worker_clusters" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of worker node(s) vSphere Clusters, Example:
+  tectonic_vmware_worker_clusters = {
+  "0" = "myvmwarecluster-0"
+  "1" = "myvmwarecluster-1"
 }
 EOF
 }
