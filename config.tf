@@ -7,6 +7,10 @@ EOF
   default = "1.0"
 }
 
+provider "ignition" {
+  version = "0.1.0"
+}
+
 variable "tectonic_image_re" {
   description = <<EOF
 (internal) Regular expression used to extract repo and tag components
