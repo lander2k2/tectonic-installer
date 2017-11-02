@@ -40,6 +40,12 @@ variable "tectonic_vmware_cluster" {
   description = "vCenter Cluster used to create VMs under"
 }
 
+variable "tectonic_vmware_type" {
+  type        = "string"
+  description = "The type of folder to create. Allowed options: datacenter, host, vm, datastore, and network."
+  default     = "vm"
+}
+
 // # Global
 
 variable "tectonic_vmware_ssh_authorized_key" {
