@@ -62,7 +62,7 @@ variable "tectonic_container_images" {
     bootkube                     = "quay.io/coreos/bootkube:v0.6.2"
     calico                       = "quay.io/calico/node:v2.6.1"
     calico_cni                   = "quay.io/calico/cni:v1.11.0"
-    console                      = "quay.io/coreos/tectonic-console:v2.3.2"
+    console                      = "quay.io/coreos/tectonic-console:v2.3.4"
     error_server                 = "quay.io/coreos/tectonic-error-server:1.0"
     etcd                         = "quay.io/coreos/etcd:v3.1.8"
     etcd_operator                = "quay.io/coreos/etcd-operator:v0.5.0"
@@ -77,7 +77,7 @@ variable "tectonic_container_images" {
     kubednsmasq                  = "gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5"
     kubedns_sidecar              = "gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.5"
     kube_version                 = "quay.io/coreos/kube-version:0.1.0"
-    kube_version_operator        = "quay.io/coreos/kube-version-operator:v1.7.9-kvo.3"
+    kube_version_operator        = "quay.io/coreos/kube-version-operator:v1.7.9-kvo.5"
     node_agent                   = "quay.io/coreos/node-agent:v1.7.5-kvo.3"
     pod_checkpointer             = "quay.io/coreos/pod-checkpointer:3517908b1a1837e78cfd041a0e51e61c7835d85f"
     stats_emitter                = "quay.io/coreos/tectonic-stats:6e882361357fe4b773adbf279cddf48cb50164c1"
@@ -176,6 +176,8 @@ variable "tectonic_etcd_servers" {
   description = <<EOF
 (optional) List of external etcd v3 servers to connect with (hostnames/IPs only).
 Needs to be set if using an external etcd cluster.
+Note: If this variable is defined, the installer will not create self-signed certs.
+To provide a CA certificate to trust the etcd servers, set "tectonic_etcd_ca_cert_path".
 
 Example: `["etcd1", "etcd2", "etcd3"]`
 EOF
@@ -188,7 +190,7 @@ variable "tectonic_etcd_tls_enabled" {
   default = true
 
   description = <<EOF
-(optional) If set to `true`, TLS secure communication for self-provisioned etcd. will be used.
+(optional) If set to `true`, all etcd endpoints will be configured to use the "https" scheme.
 
 Note: If `tectonic_experimental` is set to `true` this variable has no effect, because the experimental self-hosted etcd always uses TLS.
 EOF
@@ -202,7 +204,7 @@ variable "tectonic_etcd_ca_cert_path" {
 (optional) The path of the file containing the CA certificate for TLS communication with etcd.
 
 Note: This works only when used in conjunction with an external etcd cluster.
-If set, the variables `tectonic_etcd_servers`, `tectonic_etcd_client_cert_path`, and `tectonic_etcd_client_key_path` must also be set.
+If set, the variable `tectonic_etcd_servers` must also be set.
 EOF
 }
 
