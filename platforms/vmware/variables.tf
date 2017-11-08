@@ -121,6 +121,19 @@ variable "tectonic_vmware_etcd_gateways" {
 EOF
 }
 
+variable "tectonic_vmware_etcd_datastores" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of etcd node(s) vSphere Datastores, example:
+  tectonic_vmware_etcd_datastores = {
+  "0" = "myvmwareds-0"
+  "1" = "myvmwareds-1"
+  "2" = "myvmwareds-2"
+}
+EOF
+}
+
 variable "tectonic_vmware_etcd_ip" {
   type = "map"
 
@@ -132,12 +145,6 @@ variable "tectonic_vmware_etcd_ip" {
   "2" = "192.168.246.12/24"
 }
 EOF
-}
-
-variable "tectonic_vmware_etcd_datastore" {
-  type        = "string"
-  default     = ""
-  description = "The storage LUN used by etcd nodes. In order to use vSphere Datastore Cluster use the syntax DatastoreClusterName/datastore."
 }
 
 variable "tectonic_vmware_etcd_networks" {
@@ -216,6 +223,18 @@ variable "tectonic_vmware_master_gateways" {
 EOF
 }
 
+variable "tectonic_vmware_master_datastores" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of master node(s) vSphere Datastores, example:
+  tectonic_vmware_master_datastores = {
+  "0" = "myvmwareds-0"
+  "1" = "myvmwareds-1"
+}
+EOF
+}
+
 variable "tectonic_vmware_master_ip" {
   type = "map"
 
@@ -226,12 +245,6 @@ variable "tectonic_vmware_master_ip" {
   "1" = "192.168.246.21/24"
 }
 EOF
-}
-
-variable "tectonic_vmware_master_datastore" {
-  type        = "string"
-  default     = ""
-  description = "The storage LUN used by master nodes. In order to use vSphere Datastore Cluster use the syntax DatastoreClusterName/datastore."
 }
 
 variable "tectonic_vmware_master_networks" {
@@ -308,6 +321,18 @@ variable "tectonic_vmware_worker_gateways" {
 EOF
 }
 
+variable "tectonic_vmware_worker_datastores" {
+  type = "map"
+
+  description = <<EOF
+  terraform map of worker node(s) vSphere Datastores, example:
+  tectonic_vmware_worker_datastores = {
+  "0" = "myvmwareds-0"
+  "1" = "myvmwareds-1"
+}
+EOF
+}
+
 variable "tectonic_vmware_worker_ip" {
   type = "map"
 
@@ -330,10 +355,4 @@ variable "tectonic_vmware_worker_networks" {
   "1" = "mynet-1"
 }
 EOF
-}
-
-variable "tectonic_vmware_worker_datastore" {
-  type        = "string"
-  default     = ""
-  description = "The storage LUN used by worker nodes. In order to use vSphere Datastore Cluster use the syntax DatastoreClusterName/datastore."
 }
