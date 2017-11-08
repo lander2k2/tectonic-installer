@@ -63,7 +63,7 @@ variable "vm_disk_datastore" {
   description = "Datastore to create VM(s) in "
 }
 
-variable vm_network_labels {
+variable "vm_network_labels" {
   type        = "map"
   description = "VMs PortGroups"
 }
@@ -81,11 +81,6 @@ variable "vm_disk_template_folder" {
 variable "vm_memory" {
   type        = "string"
   description = "VMs Memory size in MB"
-}
-
-variable "vm_network_label" {
-  type        = "string"
-  description = "VMs PortGroup"
 }
 
 variable "vm_vcpu" {
