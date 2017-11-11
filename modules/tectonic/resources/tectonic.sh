@@ -132,12 +132,14 @@ set -e
 # wait for Kubernetes pods
 wait_for_pods kube-system
 
-echo "Creating PodPreset for HTTP_PROXY settings in tectonic-system"
-kubectl create -f podpreset/http-proxy.yaml -n tectonic-system
-wait_for_podpreset tectonic-system http-proxy
-# Arbitrary sleep hack because the PodPreset isn't always available as an
-# AdmissionController just because its been created & retrievable by kubectl.
-sleep 10
+if [ "${http_proxy_enabled}" = "true" ]; then
+    echo "Creating PodPreset for HTTP_PROXY settings in tectonic-system"
+    kubectl create -f podpreset/http-proxy.yaml -n tectonic-system
+    wait_for_podpreset tectonic-system http-proxy
+    # Arbitrary sleep hack because the PodPreset isn't always available as an
+    # AdmissionController just because its been created & retrievable by kubectl.
+    sleep 10
+if
 
 echo "Creating Initial Roles"
 kubectl delete -f rbac/role-admin.yaml

@@ -157,6 +157,11 @@ variable "service_cidr" {
   type        = "string"
 }
 
+variable "http_proxy_enabled" {
+  description = "Enable HTTP proxy."
+  type        = "string"
+}
+
 variable "http_proxy" {
   description = "HTTP proxy for tectonic pods to use."
   type = "string"
