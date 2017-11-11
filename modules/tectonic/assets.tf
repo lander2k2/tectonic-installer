@@ -111,7 +111,8 @@ data "template_file" "tectonic" {
   template = "${file("${path.module}/resources/tectonic.sh")}"
 
   vars {
-    ingress_kind = "${var.ingress_kind}"
+    ingress_kind       = "${var.ingress_kind}"
+    http_proxy_enabled = "${var.http_proxy_enabled}"
   }
 }
 
