@@ -229,6 +229,15 @@ tectonic_vmware_etcd_vcpu = "1"
 // vSphere Folder to create and add the Tectonic nodes
 tectonic_vmware_folder = ""
 
+// Value for HTTP_PROXY environment variables.
+tectonic_vmware_httpproxy = ""
+
+// Switch to enable use of HTTP egress proxy.
+tectonic_vmware_httpproxy_enabled = "false"
+
+// Value for HTTPS_PROXY environment variables.
+tectonic_vmware_httpsproxy = ""
+
 // The domain name which resolves to Tectonic Ingress (i.e. worker node(s))
 tectonic_vmware_ingress_domain = ""
 
@@ -290,6 +299,9 @@ tectonic_vmware_master_vcpu = "1"
 
 // DNS Server to be used by Virtual Machine(s). Multiple DNS servers can be separated by whitespace. Example: `"192.168.1.1 192.168.2.1"`
 tectonic_vmware_node_dns = ""
+
+// Value for NO_PROXY environment variables.
+tectonic_vmware_noproxy = ""
 
 // vCenter Server IP/FQDN
 tectonic_vmware_server = ""

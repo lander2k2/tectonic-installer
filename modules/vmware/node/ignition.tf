@@ -9,6 +9,8 @@ data "ignition_config" "node" {
     "${var.ign_max_user_watches_id}",
     "${data.ignition_file.node_hostname.*.id[count.index]}",
     "${var.ign_installer_kubelet_env_id}",
+    "${data.ignition_file.profile_node.id}",
+    "${data.ignition_file.profile_systemd.id}",
   ]
 
   systemd = ["${compact(list(
@@ -30,6 +32,43 @@ data "ignition_config" "node" {
 data "ignition_user" "core" {
   name                = "core"
   ssh_authorized_keys = ["${var.core_public_keys}"]
+}
+
+data "ignition_file" "profile_node" {
+  count      = "${var.http_proxy_enabled ? 1 : 0}"
+  path       = "/etc/profile.env"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+export HTTP_PROXY=${var.http_proxy}
+export HTTPS_PROXY=${var.https_proxy}
+export NO_PROXY=${var.no_proxy}
+export http_proxy=${var.http_proxy}
+export https_proxy=${var.https_proxy}
+export no_proxy=${var.no_proxy}
+EOF
+  }
+}
+
+data "ignition_file" "profile_systemd" {
+  count      = "${var.http_proxy_enabled ? 1 : 0}"
+  path       = "/etc/systemd/system.conf.d/10-default-env.conf"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+[Manager]
+DefaultEnvironment=HTTP_PROXY=${var.http_proxy}
+DefaultEnvironment=HTTPS_PROXY=${var.https_proxy}
+DefaultEnvironment=NO_PROXY=${var.no_proxy}
+DefaultEnvironment=http_proxy=${var.http_proxy}
+DefaultEnvironment=https_proxy=${var.https_proxy}
+DefaultEnvironment=no_proxy=${var.no_proxy}
+EOF
+  }
 }
 
 data "ignition_networkd_unit" "vmnetwork" {

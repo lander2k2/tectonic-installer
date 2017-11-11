@@ -119,3 +119,23 @@ variable "ign_tectonic_path_unit_id" {
   type    = "string"
   default = ""
 }
+
+variable "http_proxy_enabled" {
+  type        = "string"
+  description = "switch to configure hosts to use outbound http proxy"
+}
+
+variable "http_proxy" {
+  type        = "string"
+  description = "http_proxy variable for Nodes"
+}
+
+variable "https_proxy" {
+  type        = "string"
+  description = "https_proxy variable for Nodes"
+}
+
+variable "no_proxy" {
+  type        = "string"
+  description = "no_proxy variable for Nodes"
+}

@@ -356,3 +356,24 @@ variable "tectonic_vmware_worker_networks" {
 }
 EOF
 }
+
+variable "tectonic_vmware_httpproxy_enabled" {
+  type        = "string"
+  default     = "false"
+  description = "Switch to enable use of HTTP egress proxy."
+}
+
+variable "tectonic_vmware_httpproxy" {
+  type        = "string"
+  description = "Value for HTTP_PROXY environment variables."
+}
+
+variable "tectonic_vmware_httpsproxy" {
+  type        = "string"
+  description = "Value for HTTPS_PROXY environment variables."
+}
+
+variable "tectonic_vmware_noproxy" {
+  type        = "string"
+  description = "Value for NO_PROXY environment variables."
+}

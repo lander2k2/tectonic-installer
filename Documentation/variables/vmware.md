@@ -17,6 +17,9 @@ This document gives an overview of variables used in the VMware platform of the 
 | tectonic_vmware_etcd_networks | Terraform map of etcd node(s) vSphere network portgroups, Example:   tectonic_vmware_etcd_ip = {   "0" = "mynet-0"   "1" = "mynet-1"   "2" = "mynet-2" } | map | - |
 | tectonic_vmware_etcd_vcpu | etcd node(s) VM vCPU count | string | `1` |
 | tectonic_vmware_folder | vSphere Folder to create and add the Tectonic nodes | string | - |
+| tectonic_vmware_httpproxy | Value for HTTP_PROXY environment variables. | string | - |
+| tectonic_vmware_httpproxy_enabled | Switch to enable use of HTTP egress proxy. | string | `false` |
+| tectonic_vmware_httpsproxy | Value for HTTPS_PROXY environment variables. | string | - |
 | tectonic_vmware_ingress_domain | The domain name which resolves to Tectonic Ingress (i.e. worker node(s)) | string | - |
 | tectonic_vmware_master_clusters | Terraform map of master node(s) vSphere Clusters, Example:   tectonic_vmware_master_clusters = {   "0" = "myvmwarecluster-0"   "1" = "myvmwarecluster-1" } | map | - |
 | tectonic_vmware_master_datacenters | terraform map of master node(s) Virtual DataCenters, example:   tectonic_vmware_master_datacenters = {   "0" = "myvmwaredc-0"   "1" = "myvmwaredc-1"   "2" = "myvmwaredc-2" } | map | - |
@@ -28,6 +31,7 @@ This document gives an overview of variables used in the VMware platform of the 
 | tectonic_vmware_master_networks | Terraform map of master node(s) vSphere network portgroups, Example:   tectonic_vmware_master_ip = {   "0" = "mynet-0"   "1" = "mynet-1" } | map | - |
 | tectonic_vmware_master_vcpu | Master node(s) vCPU count | string | `1` |
 | tectonic_vmware_node_dns | DNS Server to be used by Virtual Machine(s). Multiple DNS servers can be separated by whitespace. Example: `"192.168.1.1 192.168.2.1"` | string | - |
+| tectonic_vmware_noproxy | Value for NO_PROXY environment variables. | string | - |
 | tectonic_vmware_server | vCenter Server IP/FQDN | string | - |
 | tectonic_vmware_ssh_authorized_key | SSH public key to use as an authorized key. Example: `"ssh-rsa AAAB3N..."` | string | - |
 | tectonic_vmware_ssh_private_key_path | SSH private key file in .pem format corresponding to tectonic_vmware_ssh_authorized_key. If not provided, SSH agent will be used. | string | `` |
