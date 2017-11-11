@@ -98,6 +98,10 @@ resource "template_dir" "tectonic" {
 
     image_re            = "${var.image_re}"
     kube_dns_service_ip = "${cidrhost(var.service_cidr, 10)}"
+
+    http_proxy  = "${var.http_proxy}"
+    https_proxy = "${var.https_proxy}"
+    no_proxy    = "${var.no_proxy}"
   }
 }
 

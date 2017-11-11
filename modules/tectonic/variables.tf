@@ -156,3 +156,18 @@ variable "service_cidr" {
   description = "A CIDR notation IP range from which to assign service cluster IPs"
   type        = "string"
 }
+
+variable "http_proxy" {
+  description = "HTTP proxy for tectonic pods to use."
+  type = "string"
+}
+
+variable "https_proxy" {
+  description = "HTTPS proxy for tectonic pods to use."
+  type = "string"
+}
+
+variable "no_proxy" {
+  description = "IPs and hosts that should be reached without HTTP proxy."
+  type = "string"
+}
