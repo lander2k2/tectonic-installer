@@ -139,7 +139,7 @@ if [ "${http_proxy_enabled}" = "true" ]; then
     # Arbitrary sleep hack because the PodPreset isn't always available as an
     # AdmissionController just because its been created & retrievable by kubectl.
     sleep 10
-if
+fi
 
 echo "Creating Initial Roles"
 kubectl delete -f rbac/role-admin.yaml
