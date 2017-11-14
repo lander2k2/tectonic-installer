@@ -160,6 +160,19 @@ variable "tectonic_vmware_etcd_networks" {
 EOF
 }
 
+variable "tectonic_etcd_ntp" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of etcd node(s) NTP sources, Example:
+  tectonic_vmware_etcd_ip = {
+  "0" = "my.ntp.com"
+  "1" = "my.ntp.com"
+  "2" = "my.ntp.com"
+}
+EOF
+}
+
 // ## Masters
 
 variable "tectonic_vmware_master_vcpu" {
@@ -259,6 +272,18 @@ variable "tectonic_vmware_master_networks" {
 EOF
 }
 
+variable "tectonic_master_ntp" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of master node(s) NTP time sources, Example:
+  tectonic_vmware_master_ip = {
+  "0" = "my.ntp.com"
+  "1" = "my.ntp.com"
+}
+EOF
+}
+
 // ## Workers
 
 variable "tectonic_vmware_worker_vcpu" {
@@ -353,6 +378,18 @@ variable "tectonic_vmware_worker_networks" {
   tectonic_vmware_worker_ip = {
   "0" = "mynet-0"
   "1" = "mynet-1"
+}
+EOF
+}
+
+variable "tectonic_worker_ntp" {
+  type = "map"
+
+  description = <<EOF
+  Terraform map of worker node(s) NTP time sources, Example:
+  tectonic_vmware_worker_ip = {
+  "0" = "my.ntp.com"
+  "1" = "my.ntp.com"
 }
 EOF
 }

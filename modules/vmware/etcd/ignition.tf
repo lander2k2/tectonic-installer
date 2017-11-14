@@ -16,6 +16,7 @@ data "ignition_config" "etcd" {
     "${data.ignition_file.etcd_peer_key.id}",
     "${data.ignition_file.profile_node.id}",
     "${data.ignition_file.profile_systemd.id}",
+    "${data.ignition_file.ntp_conf.id}",
   ]
 
   systemd = [
@@ -203,4 +204,18 @@ data "ignition_networkd_unit" "vmnetwork" {
   UseDomains=yes
   Domains=${var.base_domain}
 EOF
+}
+
+data "ignition_file" "ntp_conf" {
+  count      = "${length(keys(var.ntp_sources)) > 0 ? 1 : 0}"
+  path       = "/etc/systemd/timesyncd.conf"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+[Time]
+NTP=${var.ntp_sources["${count.index}"]}
+EOF
+  }
 }

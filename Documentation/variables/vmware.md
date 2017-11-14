@@ -6,6 +6,8 @@ This document gives an overview of variables used in the VMware platform of the 
 
 | Name | Description | Type | Default |
 |------|-------------|:----:|:-----:|
+| tectonic_etcd_ntp | Terraform map of etcd node(s) NTP sources, Example:   tectonic_vmware_etcd_ip = {   "0" = "my.ntp.com"   "1" = "my.ntp.com"   "2" = "my.ntp.com" } | map | - |
+| tectonic_master_ntp | Terraform map of master node(s) NTP time sources, Example:   tectonic_vmware_master_ip = {   "0" = "my.ntp.com"   "1" = "my.ntp.com" } | map | - |
 | tectonic_vmware_controller_domain | The domain name which resolves to controller node(s) | string | - |
 | tectonic_vmware_etcd_clusters | Terraform map of etcd node(s) vSphere Clusters, Example:   tectonic_vmware_etcd_clusters = {   "0" = "myvmwarecluster-0"   "1" = "myvmwarecluster-1"   "2" = "myvmwarecluster-2" } | map | - |
 | tectonic_vmware_etcd_datacenters | terraform map of etcd node(s) Virtual DataCenters, example:   tectonic_vmware_etcd_datacenters = {   "0" = "myvmwaredc-0"   "1" = "myvmwaredc-1"   "2" = "myvmwaredc-2" } | map | - |
@@ -47,4 +49,5 @@ This document gives an overview of variables used in the VMware platform of the 
 | tectonic_vmware_worker_memory | Worker node(s) Memory Size in MB | string | `4096` |
 | tectonic_vmware_worker_networks | Terraform map of worker node(s) vSphere network portgroups, Example:   tectonic_vmware_worker_ip = {   "0" = "mynet-0"   "1" = "mynet-1" } | map | - |
 | tectonic_vmware_worker_vcpu | Worker node(s) vCPU count | string | `1` |
+| tectonic_worker_ntp | Terraform map of worker node(s) NTP time sources, Example:   tectonic_vmware_worker_ip = {   "0" = "my.ntp.com"   "1" = "my.ntp.com" } | map | - |
 

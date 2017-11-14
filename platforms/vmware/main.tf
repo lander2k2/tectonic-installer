@@ -23,6 +23,7 @@ module "etcd" {
 
   vmware_datacenters      = "${var.tectonic_vmware_etcd_datacenters}"
   vmware_clusters         = "${var.tectonic_vmware_etcd_clusters}"
+  ntp_sources             = "${var.tectonic_etcd_ntp}"
   vm_vcpu                 = "${var.tectonic_vmware_etcd_vcpu}"
   vm_memory               = "${var.tectonic_vmware_etcd_memory}"
   vm_network_labels       = "${var.tectonic_vmware_etcd_networks}"
@@ -77,6 +78,7 @@ module "masters" {
 
   vmware_datacenters      = "${var.tectonic_vmware_master_datacenters}"
   vmware_clusters         = "${var.tectonic_vmware_master_clusters}"
+  ntp_sources             = "${var.tectonic_master_ntp}"
   vm_vcpu                 = "${var.tectonic_vmware_master_vcpu}"
   vm_memory               = "${var.tectonic_vmware_master_memory}"
   vm_network_labels       = "${var.tectonic_vmware_master_networks}"
@@ -131,6 +133,7 @@ module "workers" {
 
   vmware_datacenters      = "${var.tectonic_vmware_worker_datacenters}"
   vmware_clusters         = "${var.tectonic_vmware_worker_clusters}"
+  ntp_sources             = "${var.tectonic_worker_ntp}"
   vm_vcpu                 = "${var.tectonic_vmware_worker_vcpu}"
   vm_memory               = "${var.tectonic_vmware_worker_memory}"
   vm_network_labels       = "${var.tectonic_vmware_worker_networks}"

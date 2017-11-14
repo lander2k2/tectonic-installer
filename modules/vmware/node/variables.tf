@@ -139,3 +139,8 @@ variable "no_proxy" {
   type        = "string"
   description = "no_proxy variable for Nodes"
 }
+
+variable "ntp_sources" {
+  type        = "map"
+  description = "NTP sources for the node"
+}

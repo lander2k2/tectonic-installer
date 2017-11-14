@@ -11,6 +11,7 @@ data "ignition_config" "node" {
     "${var.ign_installer_kubelet_env_id}",
     "${data.ignition_file.profile_node.id}",
     "${data.ignition_file.profile_systemd.id}",
+    "${data.ignition_file.ntp_conf.id}",
   ]
 
   systemd = ["${compact(list(
@@ -95,5 +96,19 @@ data "ignition_file" "node_hostname" {
 
   content {
     content = "${var.hostname["${count.index}"]}"
+  }
+}
+
+data "ignition_file" "ntp_conf" {
+  count      = "${length(keys(var.ntp_sources)) > 0 ? 1 : 0}"
+  path       = "/etc/systemd/timesyncd.conf"
+  mode       = 0644
+  filesystem = "root"
+
+  content {
+    content = <<EOF
+[Time]
+NTP=${var.ntp_sources["${count.index}"]}
+EOF
   }
 }
