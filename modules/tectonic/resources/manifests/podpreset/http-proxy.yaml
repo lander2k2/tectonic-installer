@@ -25,6 +25,10 @@ spec:
       - kube-version-operator
       - tectonic-channel-operator
       - tectonic-stats-emitter
+    - key: app
+      operator: In
+      values:
+      - tectonic-torcx-pre-hook
   envFrom:
     - configMapRef:
         name: http-proxy-env-config
