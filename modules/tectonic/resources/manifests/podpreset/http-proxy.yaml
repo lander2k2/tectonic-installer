@@ -15,7 +15,24 @@ data:
 kind: PodPreset
 apiVersion: settings.k8s.io/v1alpha1
 metadata:
-  name: http-proxy
+  name: http-proxy-app
+spec:
+  selector:
+    matchExpressions:
+    - key: app
+      operator: In
+      values:
+      - tectonic-torcx-pre-hook
+  envFrom:
+    - configMapRef:
+        name: http-proxy-env-config
+
+---
+
+kind: PodPreset
+apiVersion: settings.k8s.io/v1alpha1
+metadata:
+  name: http-proxy-k8s-app
 spec:
   selector:
     matchExpressions:
@@ -25,10 +42,6 @@ spec:
       - kube-version-operator
       - tectonic-channel-operator
       - tectonic-stats-emitter
-    - key: app
-      operator: In
-      values:
-      - tectonic-torcx-pre-hook
   envFrom:
     - configMapRef:
         name: http-proxy-env-config
