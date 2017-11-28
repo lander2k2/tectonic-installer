@@ -60,6 +60,8 @@ module "masters" {
   tectonic_service_disabled = "${var.tectonic_vanilla_k8s}"
   kube_image_url            = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$1")}"
   kube_image_tag            = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$2")}"
+  node_regions              = "${var.tectonic_vmware_master_regions}"
+  node_zones                = "${var.tectonic_vmware_master_zones}"
 
   vmware_datacenters = "${var.tectonic_vmware_master_datacenters}"
   vmware_clusters    = "${var.tectonic_vmware_master_clusters}"
@@ -81,6 +83,7 @@ module "masters" {
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
   nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
+  nfs_conf                = "${var.tectonic_vmware_nfs_conf}"
   iscsi_enabled           = "${var.tectonic_vmware_iscsi_enabled}"
   trusted_ca              = "${var.tectonic_trusted_ca}"
 }
@@ -104,6 +107,8 @@ module "workers" {
   tectonic_service    = ""
   kube_image_url      = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$1")}"
   kube_image_tag      = "${replace(var.tectonic_container_images["hyperkube"],var.tectonic_image_re,"$2")}"
+  node_regions        = "${var.tectonic_vmware_worker_regions}"
+  node_zones          = "${var.tectonic_vmware_worker_zones}"
 
   vmware_datacenters = "${var.tectonic_vmware_worker_datacenters}"
   vmware_clusters    = "${var.tectonic_vmware_worker_clusters}"
@@ -125,6 +130,7 @@ module "workers" {
   https_proxy             = "${var.tectonic_vmware_httpsproxy}"
   no_proxy                = "${var.tectonic_vmware_noproxy}"
   nfs_enabled             = "${var.tectonic_vmware_nfs_enabled}"
+  nfs_conf                = "${var.tectonic_vmware_nfs_conf}"
   iscsi_enabled           = "${var.tectonic_vmware_iscsi_enabled}"
   trusted_ca              = "${var.tectonic_trusted_ca}"
 }

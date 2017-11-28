@@ -94,6 +94,10 @@ resource "template_dir" "tectonic" {
     tectonic_updater_enabled = "${var.experimental ? "true" : "false"}"
 
     image_re = "${var.image_re}"
+
+    http_proxy  = "${var.http_proxy}"
+    https_proxy = "${var.https_proxy}"
+    no_proxy    = "${var.no_proxy}"
   }
 }
 

@@ -20,7 +20,7 @@ data "ignition_config" "node" {
   systemd = [
     "${data.ignition_systemd_unit.docker.id}",
     "${data.ignition_systemd_unit.locksmithd.id}",
-    "${data.ignition_systemd_unit.kubelet.id}",
+    "${data.ignition_systemd_unit.kubelet.*.id[count.index]}",
     "${data.ignition_systemd_unit.kubelet-env.id}",
     "${data.ignition_systemd_unit.bootkube.id}",
     "${data.ignition_systemd_unit.tectonic.id}",
@@ -56,22 +56,57 @@ data "ignition_systemd_unit" "locksmithd" {
   mask = true
 }
 
-data "template_file" "kubelet" {
-  template = "${file("${path.module}/resources/services/kubelet.service")}"
-
-  vars {
-    cluster_dns_ip    = "${var.kube_dns_service_ip}"
-    node_label        = "${var.kubelet_node_label}"
-    node_taints_param = "${var.kubelet_node_taints != "" ? "--register-with-taints=${var.kubelet_node_taints}" : ""}"
-    cni_bin_dir_flag  = "${var.kubelet_cni_bin_dir != "" ? "--cni-bin-dir=${var.kubelet_cni_bin_dir}" : ""}"
-    wants_rpc_statd   = "${var.nfs_enabled ? "Wants=rpc-statd.service" : ""}"
-  }
-}
-
 data "ignition_systemd_unit" "kubelet" {
+  count   = "${var.instance_count}"
   name    = "kubelet.service"
   enable  = true
-  content = "${data.template_file.kubelet.rendered}"
+
+  content = <<EOF
+  [Unit]
+  Description=Kubelet via Hyperkube ACI
+
+  [Service]
+  EnvironmentFile=/etc/kubernetes/kubelet.env
+  Environment="RKT_RUN_ARGS=--uuid-file-save=/var/cache/kubelet-pod.uuid \
+		  --volume=resolv,kind=host,source=/etc/resolv.conf \
+		  --mount volume=resolv,target=/etc/resolv.conf \
+		  --volume var-lib-cni,kind=host,source=/var/lib/cni \
+		  --mount volume=var-lib-cni,target=/var/lib/cni \
+		  --volume var-log,kind=host,source=/var/log \
+		  --mount volume=var-log,target=/var/log"
+
+  ExecStartPre=/bin/mkdir -p /etc/kubernetes/manifests \
+		  /srv/kubernetes/manifests /etc/kubernetes/checkpoint-secrets \
+		  /etc/kubernetes/cni/net.d /var/lib/cni
+  ExecStartPre=/usr/bin/bash -c "grep 'certificate-authority-data' /etc/kubernetes/kubeconfig | awk '{print $2}' | base64 -d > /etc/kubernetes/ca.crt"
+  ExecStartPre=-/usr/bin/rkt rm --uuid-file=/var/cache/kubelet-pod.uuid
+
+  ExecStart=/usr/lib/coreos/kubelet-wrapper \
+		  --kubeconfig=/etc/kubernetes/kubeconfig \
+		  --require-kubeconfig \
+		  --cni-conf-dir=/etc/kubernetes/cni/net.d \
+		  --network-plugin=cni \
+		  --lock-file=/var/run/lock/kubelet.lock \
+		  --exit-on-lock-contention \
+		  --pod-manifest-path=/etc/kubernetes/manifests \
+		  --allow-privileged \
+		  --node-labels=${var.kubelet_node_label},failure-domain.beta.kubernetes.io/region=${var.node_regions["${count.index}"]},failure-domain.beta.kubernetes.io/zone=${var.node_zones["${count.index}"]} \
+		  ${var.kubelet_node_taints != "" ? "--register-with-taints=${var.kubelet_node_taints}" : ""} \
+		  ${var.kubelet_cni_bin_dir != "" ? "--cni-bin-dir=${var.kubelet_cni_bin_dir}" : ""} \
+		  --minimum-container-ttl-duration=6m0s \
+		  --cluster-dns=${var.kube_dns_service_ip} \
+		  --cluster-domain=cluster.local \
+		  --client-ca-file=/etc/kubernetes/ca.crt \
+		  --anonymous-auth=false
+  ExecStop=-/usr/bin/rkt stop --uuid-file=/var/cache/kubelet-pod.uuid
+
+  Restart=always
+  RestartSec=10
+
+  [Install]
+  WantedBy=multi-user.target
+  ${var.nfs_enabled ? "Wants=rpc-statd.service" : ""}
+EOF
 }
 
 data "template_file" "kubelet-env" {
@@ -172,7 +207,7 @@ data "ignition_file" "nfs_node" {
 
   content {
     content = <<EOF
-OPTS_RPC_MOUNTD=""
+"${var.nfs_conf}"
 EOF
   }
 }
