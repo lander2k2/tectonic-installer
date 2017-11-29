@@ -102,6 +102,20 @@ wait_for_pods() {
   set -e
 }
 
+asset_cleanup() {
+  echo "Cleaning up installation assets"
+
+  # shellcheck disable=SC2034
+  for d in "manifests" "auth" "bootstrap-manifests" "net-manifests" "tectonic" "tls"; do
+      rm -rf "$${ASSETS_PATH:?}/$${d:?}/"*
+  done
+
+  # shellcheck disable=SC2034
+  for f in "bootkube.sh" "tectonic.sh" "tectonic-wrapper.sh"; do
+      rm -f "$${ASSETS_PATH:?}/$${f:?}"
+  done
+}
+
 # chdir into the assets path directory
 cd "$ASSETS_PATH/tectonic"
 
@@ -206,6 +220,7 @@ fi
 
 # wait for Tectonic pods
 wait_for_pods tectonic-system
+asset_cleanup
 
 echo "Tectonic installation is done"
 exit 0

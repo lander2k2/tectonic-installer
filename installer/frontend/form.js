@@ -38,24 +38,21 @@ class Node {
     return () => this.clock_ === now;
   }
 
-  getExtraStuff (dispatch, clusterConfig, FIELDS, now) {
+  getExtraStuff (dispatch, cc, FIELDS, now) {
     if (!this.getExtraStuff_) {
       return Promise.resolve();
     }
-    const path = toExtraDataInFly(this.id);
 
-    const unsatisfiedDeps = this.dependencies
-      .map(d => FIELDS[d])
-      .filter(d => !d.isValid(clusterConfig));
-
-    if (unsatisfiedDeps.length) {
+    if (_.some(this.dependencies, d => FIELDS[d] && !FIELDS[d].isValid(cc))) {
       // Dependencies are not all satisfied yet
       return Promise.resolve();
     }
 
     this.updateClock(now);
 
-    setIn(path, true, dispatch);
+    const inFlyPath = toExtraDataInFly(this.id);
+
+    setIn(inFlyPath, true, dispatch);
     const isNow = this.isNow;
 
     return this.getExtraStuff_(dispatch, isNow).then(data => {
@@ -63,7 +60,7 @@ class Node {
         return;
       }
       batchSetIn(dispatch, [
-        [path, undefined],
+        [inFlyPath, undefined],
         [toExtraData(this.id), data],
         [toExtraDataError(this.id), undefined],
       ]);
@@ -72,7 +69,7 @@ class Node {
         return;
       }
       batchSetIn(dispatch, [
-        [path, undefined],
+        [inFlyPath, undefined],
         [toExtraData(this.id), undefined],
         [toExtraDataError(this.id), e.message || e.toString()],
       ]);
@@ -83,7 +80,6 @@ class Node {
     const id = this.id;
     const clusterConfig = getState().clusterConfig;
     const value = this.getData(clusterConfig);
-    const extraData = _.get(clusterConfig, toExtraData(id));
 
     const syncErrorPath = toError(id);
     const inFlyPath = toInFly(id);
@@ -97,7 +93,7 @@ class Node {
     }
 
     console.debug(`validating ${this.name}`);
-    const syncError = this.validator(value, clusterConfig, oldValue, extraData, oldCC);
+    const syncError = this.validator(value, clusterConfig, oldValue, oldCC);
     if (!_.isEmpty(syncError)) {
       console.info(`sync error ${this.name}: ${JSON.stringify(syncError)}`);
       batches.push([syncErrorPath, syncError]);
@@ -130,7 +126,7 @@ class Node {
     this.updateClock(now);
 
     try {
-      asyncError = await this.asyncValidator_(dispatch, getState, value, oldValue, this.isNow, extraData, oldCC);
+      asyncError = await this.asyncValidator_(dispatch, getState, value, oldValue, this.isNow, oldCC);
     } catch (e) {
       asyncError = e.message || e.toString();
     }
@@ -215,10 +211,6 @@ export class Field extends Node {
       throw new Error(`${id} needs a default`);
     }
     this.default = opts.default;
-  }
-
-  getExtraData (clusterConfig) {
-    return _.get(clusterConfig, toExtraData(this.id));
   }
 
   getData (clusterConfig) {
@@ -329,13 +321,6 @@ export class Form extends Node {
     return invalidFields.length === 0;
   }
 
-  getExtraData (clusterConfig) {
-    return this.fields.filter(f => !f.isIgnored(clusterConfig)).reduce((acc, f) => {
-      acc[f.name] = f.getExtraData(clusterConfig);
-      return acc;
-    }, {});
-  }
-
   getData (clusterConfig) {
     return this.fields.filter(f => !f.isIgnored(clusterConfig)).reduce((acc, f) => {
       acc[f.name] = f.getData(clusterConfig);
@@ -356,8 +341,8 @@ export class Form extends Node {
   }
 }
 
-const toValidator = (fields, listValidator) => (value, clusterConfig, oldValue, extraData) => {
-  const errs = listValidator ? listValidator(value, clusterConfig, oldValue, extraData) : [];
+const toValidator = (fields, listValidator) => (value, clusterConfig, oldValue) => {
+  const errs = listValidator ? listValidator(value, clusterConfig, oldValue) : [];
   if (errs && !_.isObject(errs)) {
     throw new Error(`FieldLists validator must return an Array-like Object, not:\n${errs}`);
   }
@@ -369,7 +354,7 @@ const toValidator = (fields, listValidator) => (value, clusterConfig, oldValue, 
       if (!validator) {
         return;
       }
-      const err = validator(childValue, clusterConfig, _.get(oldValue, [i, name]), _.get(extraData, [i, name]));
+      const err = validator(childValue, clusterConfig, _.get(oldValue, [i, name]));
       if (!err) {
         return;
       }

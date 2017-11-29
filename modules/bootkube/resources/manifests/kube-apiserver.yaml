@@ -6,6 +6,7 @@ metadata:
   labels:
     tier: control-plane
     k8s-app: kube-apiserver
+    tectonic-operators.coreos.com/managed-by: kube-version-operator
 spec:
   selector:
     matchLabels:
@@ -20,7 +21,6 @@ spec:
       labels:
         tier: control-plane
         k8s-app: kube-apiserver
-        tectonic-operators.coreos.com/managed-by: kube-version-operator
       annotations:
         checkpointer.alpha.coreos.com/checkpoint: "true"
     spec:
@@ -32,6 +32,7 @@ spec:
         - /var/lock/api-server.lock
         - /hyperkube
         - apiserver
+        - --runtime-config=""
         - --bind-address=0.0.0.0
         - --secure-port=443
         - --insecure-port=0

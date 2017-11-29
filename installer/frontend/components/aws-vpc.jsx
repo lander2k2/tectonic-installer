@@ -24,14 +24,14 @@ import { CIDRRow } from './cidr';
 import { Field, Form } from '../form';
 
 import {
-  AWS_CONTROLLER_SUBNET_IDS,
   AWS_CONTROLLER_SUBNETS,
+  AWS_CONTROLLER_SUBNET_IDS,
   AWS_CREATE_VPC,
   AWS_HOSTED_ZONE_ID,
   AWS_REGION,
   AWS_REGION_FORM,
-  AWS_SUBNETS,
   AWS_SPLIT_DNS,
+  AWS_SUBNETS,
   AWS_VPC_CIDR,
   AWS_VPC_FORM,
   AWS_VPC_ID,
@@ -47,7 +47,8 @@ import {
   VPC_CREATE ,
   VPC_PRIVATE,
   VPC_PUBLIC,
-  toVPCSubnet,
+  getZoneDomain,
+  selectedSubnets,
 } from '../cluster-config';
 
 const AWS_ADVANCED_NETWORKING = 'awsAdvancedNetworking';
@@ -55,7 +56,7 @@ const DEFAULT_AWS_VPC_CIDR = '10.0.0.0/16';
 
 const {setIn} = configActions;
 
-const validateVPC = (dispatch, getState, data, oldData, isNow, extraData, oldCC) => {
+const validateVPC = (dispatch, getState, data, oldData, isNow, oldCC) => {
   const cc = getState().clusterConfig;
 
   const isCreate = cc[AWS_CREATE_VPC] === VPC_CREATE;
@@ -89,7 +90,7 @@ const validateVPC = (dispatch, getState, data, oldData, isNow, extraData, oldCC)
   }
 
   const getSubnets = subnets => {
-    const selected = toVPCSubnet(cc[AWS_REGION], subnets, cc[DESELECTED_FIELDS][AWS_SUBNETS]);
+    const selected = selectedSubnets(cc, subnets);
     return _.map(selected, (v, k) => isCreate ? {availabilityZone: k, instanceCIDR: v} : {availabilityZone: k, id: v});
   };
 
@@ -129,14 +130,13 @@ const vpcInfoForm = new Form(AWS_VPC_FORM, [
   new Field(AWS_HOSTED_ZONE_ID, {
     default: '',
     dependencies: [AWS_REGION_FORM],
-    validator: (value, clusterConfig, oldValue, extraData) => {
+    validator: (value, cc) => {
       const empty = validate.nonEmpty(value);
       if (empty) {
         return empty;
       }
-
-      if (!extraData || !extraData.zoneToName[value]) {
-        return 'Unknown zone id.';
+      if (!getZoneDomain(cc)) {
+        return 'Unknown zone ID.';
       }
     },
     getExtraStuff: (dispatch, isNow) => dispatch(getZones(null, null, isNow))
@@ -189,7 +189,7 @@ const SubnetSelect = ({field, name, subnets, disabled, fieldName}) => <div class
   <div className="col-xs-6">
     <Connect field={field}>
       <Select disabled={disabled}>
-        <option disabled>Select a subnet</option>
+        <option disabled value="">Select a subnet</option>
         {_.filter(subnets, ({availabilityZone}) => availabilityZone === name)
           .map(({id, instanceCIDR}) => <option value={id} key={instanceCIDR}>{instanceCIDR} ({id})</option>)
         }

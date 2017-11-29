@@ -98,35 +98,17 @@ export const ETCD_OPTIONS = { EXTERNAL, PROVISIONED };
 // String that would be an invalid IAM role name
 export const IAM_ROLE_CREATE_OPTION = '%create%';
 
-export const toVPCSubnet = (region, subnets, deselected) => {
-  const vpcSubnets = {};
+export const selectedSubnets = (cc, subnets) => {
+  const awsSubnets = {};
   _.each(subnets, (v, availabilityZone) => {
-    if (!availabilityZone.startsWith(region) || deselected && deselected[availabilityZone]) {
-      return;
+    if (v && availabilityZone.startsWith(cc[AWS_REGION]) && !_.get(cc, [DESELECTED_FIELDS, AWS_SUBNETS, availabilityZone])) {
+      awsSubnets[availabilityZone] = v;
     }
-    if (!v) {
-      return;
-    }
-    vpcSubnets[availabilityZone] = v;
   });
-  return vpcSubnets;
+  return awsSubnets;
 };
 
-export const toVPCSubnetID = (region, subnets, deselected) => {
-  const vpcSubnets = [];
-  _.each(subnets, (v, availabilityZone) => {
-    if (!availabilityZone.startsWith(region) || deselected && deselected[availabilityZone]) {
-      return;
-    }
-    if (!v) {
-      return;
-    }
-    vpcSubnets.push(v);
-  });
-  return vpcSubnets;
-};
-
-const getZoneDomain = (cc) => {
+export const getZoneDomain = (cc) => {
   if (cc[PLATFORM_TYPE] === BARE_METAL_TF) {
     throw new Error("Can't get base domain for bare metal!");
   }
@@ -160,22 +142,10 @@ export const DEFAULT_CLUSTER_CONFIG = {
   [RETRY]: false, // whether we're retrying a terraform apply
 };
 
-export const toAWS_TF = (cc, FORMS) => {
+export const toAWS_TF = ({clusterConfig: cc, dirty}, FORMS) => {
   const controllers = FORMS[AWS_CONTROLLERS].getData(cc);
   const etcds = FORMS[AWS_ETCDS].getData(cc);
   const workers = FORMS[AWS_WORKERS].getData(cc);
-
-  const region = cc[AWS_REGION];
-  let controllerSubnets;
-  let workerSubnets;
-
-  if (cc[AWS_CREATE_VPC] === VPC_CREATE) {
-    controllerSubnets = toVPCSubnet(region, cc[AWS_CONTROLLER_SUBNETS], cc[DESELECTED_FIELDS][AWS_SUBNETS]);
-    workerSubnets = toVPCSubnet(region, cc[AWS_WORKER_SUBNETS], cc[DESELECTED_FIELDS][AWS_SUBNETS]);
-  } else {
-    controllerSubnets = toVPCSubnetID(region, cc[AWS_CONTROLLER_SUBNET_IDS], cc[DESELECTED_FIELDS][AWS_SUBNETS]);
-    workerSubnets = toVPCSubnetID(region, cc[AWS_WORKER_SUBNET_IDS], cc[DESELECTED_FIELDS][AWS_SUBNETS]);
-  }
 
   const extraTags = {};
   _.each(cc[AWS_TAGS], ({key, value}) => {
@@ -240,14 +210,19 @@ export const toAWS_TF = (cc, FORMS) => {
   if (cc[STS_ENABLED]) {
     ret.credentials.AWSSessionToken = cc[AWS_SESSION_TOKEN];
   }
+
   if (cc[AWS_CREATE_VPC] === VPC_CREATE) {
     ret.variables.tectonic_aws_vpc_cidr_block = cc[AWS_VPC_CIDR];
-    ret.variables.tectonic_aws_master_custom_subnets = controllerSubnets;
-    ret.variables.tectonic_aws_worker_custom_subnets = workerSubnets;
+
+    // If the subnets have not been edited, omit these variables so that sensible default subnets will be created
+    if (dirty[AWS_CONTROLLER_SUBNETS] || dirty[AWS_WORKER_SUBNETS]) {
+      ret.variables.tectonic_aws_master_custom_subnets = selectedSubnets(cc, cc[AWS_CONTROLLER_SUBNETS]);
+      ret.variables.tectonic_aws_worker_custom_subnets = selectedSubnets(cc, cc[AWS_WORKER_SUBNETS]);
+    }
   } else {
     ret.variables.tectonic_aws_external_vpc_id = cc[AWS_VPC_ID];
-    ret.variables.tectonic_aws_external_master_subnet_ids = controllerSubnets;
-    ret.variables.tectonic_aws_external_worker_subnet_ids = workerSubnets;
+    ret.variables.tectonic_aws_external_master_subnet_ids = _.values(selectedSubnets(cc, cc[AWS_CONTROLLER_SUBNET_IDS]));
+    ret.variables.tectonic_aws_external_worker_subnet_ids = _.values(selectedSubnets(cc, cc[AWS_WORKER_SUBNET_IDS]));
     ret.variables.tectonic_aws_public_endpoints = cc[AWS_CREATE_VPC] !== VPC_PRIVATE;
   }
 
@@ -263,7 +238,7 @@ export const toAWS_TF = (cc, FORMS) => {
   return ret;
 };
 
-export const toBaremetal_TF = (cc, FORMS) => {
+export const toBaremetal_TF = ({clusterConfig: cc}, FORMS) => {
   const sshKey = FORMS[BM_SSH_KEY].getData(cc);
   const masters = cc[BM_MASTERS];
   const workers = cc[BM_WORKERS];

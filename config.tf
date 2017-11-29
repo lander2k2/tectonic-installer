@@ -11,7 +11,7 @@ provider "external" {
 }
 
 provider "ignition" {
-  version = "0.1.0"
+  version = "1.0.0"
 }
 
 provider "local" {
@@ -32,6 +32,14 @@ provider "template" {
 
 provider "tls" {
   version = "1.0.0"
+}
+
+locals {
+  // The total amount of public CA certificates present in Tectonic.
+  // That is all custom CAs + kube CA + etcd CA + ingress CA
+  // This is a local constant, which needs to be dependency inject because TF cannot handle length() on computed values,
+  // see https://github.com/hashicorp/terraform/issues/10857#issuecomment-268289775.
+  tectonic_ca_count = "${length(var.tectonic_custom_ca_pem_list) + 3}"
 }
 
 variable "tectonic_config_version" {
@@ -71,23 +79,23 @@ variable "tectonic_container_images" {
     flannel_cni                  = "quay.io/coreos/flannel-cni:v0.2.0"
     heapster                     = "gcr.io/google_containers/heapster:v1.4.1"
     hyperkube                    = "quay.io/coreos/hyperkube:v1.8.2_coreos.0"
-    identity                     = "quay.io/coreos/dex:v2.7.1"
-    ingress_controller           = "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.9.0-beta.16"
+    identity                     = "quay.io/coreos/dex:v2.8.1"
+    ingress_controller           = "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.9.0-beta.17"
     kenc                         = "quay.io/coreos/kenc:0.0.2"
     kubedns                      = "gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.5"
     kubednsmasq                  = "gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5"
     kubedns_sidecar              = "gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.5"
     kube_version                 = "quay.io/coreos/kube-version:0.1.0"
-    kube_version_operator        = "quay.io/coreos/kube-version-operator:v1.7.9-kvo.5"
+    kube_version_operator        = "quay.io/coreos/kube-version-operator:v1.7.9-kvo.6"
     node_agent                   = "quay.io/coreos/node-agent:cd69b4a0f65b0d3a3b30edfce3bb184fd2a22c26"
     pod_checkpointer             = "quay.io/coreos/pod-checkpointer:e22cc0e3714378de92f45326474874eb602ca0ac"
     stats_emitter                = "quay.io/coreos/tectonic-stats:6e882361357fe4b773adbf279cddf48cb50164c1"
     stats_extender               = "quay.io/coreos/tectonic-stats-extender:487b3da4e175da96dabfb44fba65cdb8b823db2e"
     tectonic_channel_operator    = "quay.io/coreos/tectonic-channel-operator:0.5.4"
     tectonic_etcd_operator       = "quay.io/coreos/tectonic-etcd-operator:v0.0.2"
-    tectonic_prometheus_operator = "quay.io/coreos/tectonic-prometheus-operator:v1.7.1"
-    tectonic_cluo_operator       = "quay.io/coreos/tectonic-cluo-operator:v0.2.4"
-    tectonic_torcx               = "quay.io/coreos/tectonic-torcx:installer-latest"
+    tectonic_prometheus_operator = "quay.io/coreos/tectonic-prometheus-operator:v1.8.0"
+    tectonic_cluo_operator       = "quay.io/coreos/tectonic-cluo-operator:v0.2.5"
+    tectonic_torcx               = "quay.io/coreos/tectonic-torcx:v0.2.0"
   }
 }
 
@@ -116,11 +124,11 @@ variable "tectonic_versions" {
 
   default = {
     etcd          = "3.1.8"
-    kubernetes    = "1.7.9+tectonic.1"
-    monitoring    = "1.7.1"
+    kubernetes    = "1.7.9+tectonic.2"
+    monitoring    = "1.8.0"
     tectonic      = "1.8.2-tectonic.1"
     tectonic-etcd = "0.0.1"
-    cluo          = "0.2.4"
+    cluo          = "0.2.5"
   }
 }
 
@@ -511,4 +519,13 @@ variable "tectonic_kubelet_debug_config" {
   default = ""
 
   description = "(internal) debug flags for the kubelet (used in CI only)"
+}
+
+variable "tectonic_custom_ca_pem_list" {
+  type    = "list"
+  default = []
+
+  description = <<EOF
+(optional) A list of PEM encoded CA files that will be installed in /etc/ssl/certs on etcd, master, and worker nodes.
+EOF
 }
