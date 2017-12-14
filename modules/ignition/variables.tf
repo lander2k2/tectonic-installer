@@ -117,3 +117,18 @@ variable "metadata_provider" {
 variable "use_metadata" {
   default = true
 }
+
+variable "http_proxy" {
+  type        = "string"
+  description = "HTTP proxy to use for egress out of the local network"
+}
+
+variable "http_proxy" {
+  type        = "string"
+  description = "HTTPS proxy to use for egress out of the local network"
+}
+
+variable "no_proxy" {
+  type        = "string"
+  description = "Local endpoints that need to be accessed without HTTP proxy"
+}

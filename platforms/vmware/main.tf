@@ -55,6 +55,9 @@ module "ignition_masters" {
   kubelet_node_taints       = "node-role.kubernetes.io/master=:NoSchedule"
   use_metadata		    = false
   tectonic_vanilla_k8s      = "${var.tectonic_vanilla_k8s}"
+  http_proxy               = "${var.tectonic_http_proxy}"
+  https_proxy              = "${var.tectonic_https_proxy}"
+  no_proxy                 = "${var.tectonic_no_proxy}"
 }
 
 module "masters" {
@@ -106,6 +109,9 @@ module "ignition_workers" {
   kubelet_node_label   = "node-role.kubernetes.io/node"
   kubelet_node_taints  = ""
   tectonic_vanilla_k8s = "${var.tectonic_vanilla_k8s}"
+  http_proxy               = "${var.tectonic_http_proxy}"
+  https_proxy              = "${var.tectonic_https_proxy}"
+  no_proxy                 = "${var.tectonic_no_proxy}"
 }
 
 module "workers" {

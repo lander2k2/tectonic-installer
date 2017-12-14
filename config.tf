@@ -514,3 +514,21 @@ variable "tectonic_kubelet_debug_config" {
 
   description = "(internal) debug flags for the kubelet (used in CI only)"
 }
+
+variable "tectonic_http_proxy" {
+  type        = "string"
+  default     = ""
+  description = "HTTP proxy to use for egress out of the local network"
+}
+
+variable "tectonic_https_proxy" {
+  type        = "string"
+  default     = ""
+  description = "HTTPS proxy to use for egress out of the local network"
+}
+
+variable "tectonic_no_proxy" {
+  type        = "string"
+  default     = ""
+  description = "Local endpoints that need to be accessed without HTTP proxy"
+}
