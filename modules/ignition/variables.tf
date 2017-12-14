@@ -123,7 +123,7 @@ variable "http_proxy" {
   description = "HTTP proxy to use for egress out of the local network"
 }
 
-variable "http_proxy" {
+variable "https_proxy" {
   type        = "string"
   description = "HTTPS proxy to use for egress out of the local network"
 }
