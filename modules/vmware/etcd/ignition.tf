@@ -5,16 +5,18 @@ data "ignition_config" "etcd" {
     "${data.ignition_user.core.id}",
   ]
 
-  files = [
-    "${data.ignition_file.node_hostname.*.id[count.index]}",
-    "${data.ignition_file.etcd_ca.id}",
-    "${data.ignition_file.etcd_server_crt.id}",
-    "${data.ignition_file.etcd_server_key.id}",
-    "${data.ignition_file.etcd_client_crt.id}",
-    "${data.ignition_file.etcd_client_key.id}",
-    "${data.ignition_file.etcd_peer_crt.id}",
-    "${data.ignition_file.etcd_peer_key.id}",
-  ]
+  files = ["${compact(list(
+    data.ignition_file.node_hostname.*.id[count.index],
+    data.ignition_file.etcd_ca.id,
+    data.ignition_file.etcd_server_crt.id,
+    data.ignition_file.etcd_server_key.id,
+    data.ignition_file.etcd_client_crt.id,
+    data.ignition_file.etcd_client_key.id,
+    data.ignition_file.etcd_peer_crt.id,
+    data.ignition_file.etcd_peer_key.id,
+    var.ign_profile_env_id,
+    var.ign_systemd_default_env_id,
+   ))}"]
 
   systemd = [
     "${data.ignition_systemd_unit.locksmithd.*.id[count.index]}",

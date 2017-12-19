@@ -126,3 +126,13 @@ variable "tls_peer_crt_pem" {
 variable "ign_etcd_dropin_id_list" {
   type = "list"
 }
+
+variable "ign_profile_env_id" {
+  type    = "string"
+  default = ""
+}
+
+variable "ign_systemd_default_env_id" {
+  type    = "string"
+  default = ""
+}

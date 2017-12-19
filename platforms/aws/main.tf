@@ -2,6 +2,11 @@ provider "aws" {
   region  = "${var.tectonic_aws_region}"
   profile = "${var.tectonic_aws_profile}"
   version = "1.1.0"
+
+  assume_role {
+    role_arn     = "arn:aws:iam::694187515568:role/tectonic-installer"
+  }
+
 }
 
 data "aws_availability_zones" "azs" {}
@@ -107,6 +112,10 @@ module "ignition_masters" {
   kubelet_node_label        = "node-role.kubernetes.io/master"
   kubelet_node_taints       = "node-role.kubernetes.io/master=:NoSchedule"
   tectonic_vanilla_k8s      = "${var.tectonic_vanilla_k8s}"
+  http_proxy_enabled        = "${var.tectonic_http_proxy_enabled}"
+  http_proxy                = "${var.tectonic_http_proxy}"
+  https_proxy               = "${var.tectonic_https_proxy}"
+  no_proxy                  = "${var.tectonic_no_proxy}"
 }
 
 module "masters" {
@@ -149,6 +158,8 @@ module "masters" {
   root_volume_type                  = "${var.tectonic_aws_master_root_volume_type}"
   ssh_key                           = "${var.tectonic_aws_ssh_key}"
   subnet_ids                        = "${module.vpc.master_subnet_ids}"
+  ign_profile_env_id                = "${var.tectonic_http_proxy_enabled ? module.ignition_masters.profile_env_id : ""}"
+  ign_systemd_default_env_id        = "${var.tectonic_http_proxy_enabled ? module.ignition_masters.systemd_default_env_id : ""}"
 }
 
 module "ignition_workers" {
@@ -165,6 +176,10 @@ module "ignition_workers" {
   kubelet_node_label   = "node-role.kubernetes.io/node"
   kubelet_node_taints  = ""
   tectonic_vanilla_k8s = "${var.tectonic_vanilla_k8s}"
+  http_proxy_enabled   = "${var.tectonic_http_proxy_enabled}"
+  http_proxy           = "${var.tectonic_http_proxy}"
+  https_proxy          = "${var.tectonic_https_proxy}"
+  no_proxy             = "${var.tectonic_no_proxy}"
 }
 
 module "workers" {
@@ -195,6 +210,8 @@ module "workers" {
   subnet_ids                        = "${module.vpc.worker_subnet_ids}"
   vpc_id                            = "${module.vpc.vpc_id}"
   worker_iam_role                   = "${var.tectonic_aws_worker_iam_role_name}"
+  ign_profile_env_id                = "${var.tectonic_http_proxy_enabled ? module.ignition_workers.profile_env_id : ""}"
+  ign_systemd_default_env_id        = "${var.tectonic_http_proxy_enabled ? module.ignition_workers.systemd_default_env_id : ""}"
 }
 
 module "dns" {

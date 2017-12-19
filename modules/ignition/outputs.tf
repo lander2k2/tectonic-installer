@@ -105,3 +105,11 @@ output "coreos_metadata_dropin_rendered" {
 output "gcs_puller_id" {
   value = "${data.ignition_file.gcs_puller.id}"
 }
+
+output "profile_env_id" {
+  value = "${data.ignition_file.profile_env.id}"
+}
+
+output "systemd_default_env_id" {
+  value = "${data.ignition_file.systemd_default_env.id}"
+}

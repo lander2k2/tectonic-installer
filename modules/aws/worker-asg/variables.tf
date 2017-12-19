@@ -82,3 +82,13 @@ variable "worker_iam_role" {
 variable "ign_s3_puller_id" {
   type = "string"
 }
+
+variable "ign_profile_env_id" {
+  type    = "string"
+  default = ""
+}
+
+variable "ign_systemd_default_env_id" {
+  type    = "string"
+  default = ""
+}

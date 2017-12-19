@@ -514,3 +514,49 @@ variable "tectonic_kubelet_debug_config" {
 
   description = "(internal) debug flags for the kubelet (used in CI only)"
 }
+
+variable "tectonic_http_proxy_enabled" {
+  type        = "string"
+  default     = "false"
+  description = <<EOF
+(optional) Enable the use of an HTTP proxy to egress the local network.
+
+Note: Only available for AWS and VMware modules at this time.
+EOF
+}
+
+variable "tectonic_http_proxy" {
+  type        = "string"
+  default     = ""
+  description = <<EOF
+(optional) HTTP proxy address.
+
+Note: `tectonic_http_proxy_enabled` must be set to `true` to take effect.
+
+Example: `http://myproxy.example.com`
+EOF
+}
+
+variable "tectonic_https_proxy" {
+  type        = "string"
+  default     = ""
+  description = <<EOF
+(optional) HTTPS proxy address.
+
+Note: `tectonic_http_proxy_enabled` must be set to `true` to take effect.
+
+Example: `http://myproxy.example.com`
+EOF
+}
+
+variable "tectonic_no_proxy" {
+  type        = "string"
+  default     = ""
+  description = <<EOF
+(optional) Comma delimited list of local endpoints that will not use HTTP proxy.
+
+Note: `tectonic_http_proxy_enabled` must be set to `true` to take effect.
+
+Example: `127.0.0.1,localhost,.example.com,10.3.0.1`
+EOF
+}
