@@ -23,6 +23,8 @@ module "etcd" {
   vmware_datacenters      = "${var.tectonic_vmware_etcd_datacenters}"
   vmware_folder           = "${vsphere_folder.tectonic_vsphere_folder.path}"
   vmware_resource_pool    = "${var.tectonic_vmware_etcd_resource_pool}"
+  ign_profile_env_id         = "${var.tectonic_http_proxy_enabled ? module.ignition_masters.profile_env_id : ""}"
+  ign_systemd_default_env_id = "${var.tectonic_http_proxy_enabled ? module.ignition_masters.systemd_default_env_id : ""}"
 }
 
 data "template_file" "etcd_hostname_list" {
@@ -59,6 +61,10 @@ module "ignition_masters" {
   kubelet_node_taints       = "node-role.kubernetes.io/master=:NoSchedule"
   tectonic_vanilla_k8s      = "${var.tectonic_vanilla_k8s}"
   use_metadata              = false
+  http_proxy_enabled        = "${var.tectonic_http_proxy_enabled}"
+  http_proxy                = "${var.tectonic_http_proxy}"
+  https_proxy               = "${var.tectonic_https_proxy}"
+  no_proxy                  = "${var.tectonic_no_proxy}"
 }
 
 module "masters" {
@@ -98,6 +104,8 @@ module "masters" {
   vmware_datacenters                   = "${var.tectonic_vmware_master_datacenters}"
   vmware_folder                        = "${vsphere_folder.tectonic_vsphere_folder.path}"
   vmware_resource_pool                 = "${var.tectonic_vmware_master_resource_pool}"
+  ign_profile_env_id                = "${var.tectonic_http_proxy_enabled ? module.ignition_masters.profile_env_id : ""}"
+  ign_systemd_default_env_id        = "${var.tectonic_http_proxy_enabled ? module.ignition_masters.systemd_default_env_id : ""}"
 }
 
 module "ignition_workers" {
@@ -116,6 +124,10 @@ module "ignition_workers" {
   kubelet_node_label      = "node-role.kubernetes.io/node"
   kubelet_node_taints     = ""
   tectonic_vanilla_k8s    = "${var.tectonic_vanilla_k8s}"
+  http_proxy_enabled   = "${var.tectonic_http_proxy_enabled}"
+  http_proxy           = "${var.tectonic_http_proxy}"
+  https_proxy          = "${var.tectonic_https_proxy}"
+  no_proxy             = "${var.tectonic_no_proxy}"
 }
 
 module "workers" {
@@ -151,4 +163,6 @@ module "workers" {
   vmware_datacenters                   = "${var.tectonic_vmware_worker_datacenters}"
   vmware_folder                        = "${vsphere_folder.tectonic_vsphere_folder.path}"
   vmware_resource_pool                 = "${var.tectonic_vmware_worker_resource_pool}"
+  ign_profile_env_id                = "${var.tectonic_http_proxy_enabled ? module.ignition_workers.profile_env_id : ""}"
+  ign_systemd_default_env_id        = "${var.tectonic_http_proxy_enabled ? module.ignition_workers.systemd_default_env_id : ""}"
 }

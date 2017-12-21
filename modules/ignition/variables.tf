@@ -161,3 +161,23 @@ variable "custom_ca_cert_pem_list" {
   type        = "list"
   description = "(optional) A list of custom CAs in PEM format."
 }
+
+variable "http_proxy_enabled" {
+  type        = "string"
+  description = "Enable the use of an HTTP proxy to egress the local network."
+}
+
+variable "http_proxy" {
+  type        = "string"
+  description = "HTTP proxy address."
+}
+
+variable "https_proxy" {
+  type        = "string"
+  description = "HTTPS proxy address."
+}
+
+variable "no_proxy" {
+  type        = "string"
+  description = "Comma delimited list of local endpoints that will not use HTTP proxy."
+}

@@ -112,6 +112,25 @@ tectonic_etcd_count = "0"
 // Note: If `tectonic_experimental` is set to `true` this variable has no effect, because the experimental self-hosted etcd always uses TLS.
 // tectonic_etcd_tls_enabled = true
 
+// (optional) HTTP proxy address.
+// 
+// Note: `tectonic_http_proxy_enabled` must be set to `true` to take effect.
+// 
+// Example: `http://myproxy.example.com`
+// tectonic_http_proxy = ""
+
+// (optional) Enable the use of an HTTP proxy to egress the local network.
+// 
+// Note: Only available for AWS and VMware modules at this time.
+// tectonic_http_proxy_enabled = "false"
+
+// (optional) HTTPS proxy address.
+// 
+// Note: `tectonic_http_proxy_enabled` must be set to `true` to take effect.
+// 
+// Example: `http://myproxy.example.com`
+// tectonic_https_proxy = ""
+
 // The path to the tectonic licence file.
 // You can download the Tectonic license file from your Account overview page at [1].
 // 
@@ -132,6 +151,13 @@ tectonic_master_count = "1"
 // 
 // - "calico": [ALPHA] enables BGP based networking. Routing and network policy is implemented by Calico. Note this has been tested on baremetal installations only.
 // tectonic_networking = "flannel"
+
+// (optional) Comma delimited list of local endpoints that will not use HTTP proxy.
+// 
+// Note: `tectonic_http_proxy_enabled` must be set to `true` to take effect.
+// 
+// Example: `127.0.0.1,localhost,.example.com,10.3.0.1`
+// tectonic_no_proxy = ""
 
 // The path the pull secret file in JSON format.
 // This is known to be a "Docker pull secret" as produced by the docker login [1] command.
