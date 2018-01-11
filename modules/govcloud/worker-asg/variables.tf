@@ -91,3 +91,7 @@ variable "dns_server_ip" {
   type    = "string"
   default = ""
 }
+
+variable "ign_ntp_dropin_id" {
+  type = "string"
+}
